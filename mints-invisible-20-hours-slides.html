@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Invisible 20 Hours — Moms in Tech Workshop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage-50:  #F2F6F4;
+    --sage-100: #E5EBE8;
+    --sage-200: #d5e0da;
+    --sage-300: #A8C5B8;
+    --sage-400: #92b3a3;
+    --sage-500: #7C9A8E;
+    --sage-600: #6a8a7d;
+    --sage-700: #5A7A6E;
+    --sage-800: #435c52;
+    --sage-900: #2C3E36;
+    --cream-50:  #FFFFFF;
+    --cream-100: #FAF8F5;
+    --cream-200: #F5F3F0;
+    --coral:     #E8A598;
+    --peach:     #FDEEE8;
+    --text:      #2D3436;
+    --text-mute: #636E72;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--text);
+    background: var(--cream-100);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .deck {
+    height: 100vh;
+    width: 100vw;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+  .deck::-webkit-scrollbar { display: none; }
+  .deck { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .slide {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8vh 10vw;
+    overflow: hidden;
+  }
+
+  /* Background variants */
+  .slide--cream { background: var(--cream-100); color: var(--text); }
+  .slide--cream-dot {
+    background: var(--cream-100);
+    background-image: radial-gradient(var(--sage-300) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-position: 0 0;
+  }
+  .slide--cream-dot::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, var(--cream-100) 0%, transparent 30%, transparent 70%, var(--cream-100) 100%);
+    pointer-events: none;
+  }
+  .slide--sage { background: var(--sage-500); color: white; }
+  .slide--sage-deep { background: var(--sage-700); color: white; }
+  .slide--sage-light { background: var(--sage-200); color: var(--sage-900); }
+  .slide--cream-sage-gradient {
+    background: linear-gradient(160deg, var(--cream-100) 0%, var(--sage-100) 100%);
+  }
+
+  /* Inner container */
+  .slide-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    width: 100%;
+  }
+  .slide-inner--center { text-align: center; }
+  .slide-inner--wide { max-width: 1400px; }
+
+  /* Typography */
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.7rem, 0.9vw, 0.95rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--sage-600);
+    margin-bottom: 1.8rem;
+    display: inline-block;
+  }
+  .slide--sage .eyebrow,
+  .slide--sage-deep .eyebrow { color: var(--sage-200); }
+  .slide--sage-light .eyebrow { color: var(--sage-700); }
+
+  .display {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    color: var(--sage-900);
+  }
+  .slide--sage .display,
+  .slide--sage-deep .display { color: white; }
+
+  .headline {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: clamp(2.2rem, 4.5vw, 4rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--sage-900);
+  }
+  .slide--sage .headline,
+  .slide--sage-deep .headline { color: white; }
+
+  .subhead {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: clamp(1.35rem, 2.2vw, 2rem);
+    line-height: 1.3;
+    color: var(--sage-700);
+    letter-spacing: -0.01em;
+  }
+  .slide--sage .subhead,
+  .slide--sage-deep .subhead { color: var(--sage-100); }
+
+  .body {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1rem, 1.3vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--text-mute);
+  }
+  .slide--sage .body,
+  .slide--sage-deep .body { color: rgba(255,255,255,0.8); }
+
+  .cite {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.75rem, 0.9vw, 0.9rem);
+    font-weight: 500;
+    color: var(--sage-500);
+    letter-spacing: 0.02em;
+  }
+  .slide--sage .cite,
+  .slide--sage-deep .cite { color: rgba(255,255,255,0.55); }
+
+  /* Spacing */
+  .stack > * + * { margin-top: 1.5rem; }
+  .stack-sm > * + * { margin-top: 0.75rem; }
+  .stack-lg > * + * { margin-top: 2.25rem; }
+  .stack-xl > * + * { margin-top: 3rem; }
+
+  /* Big stat */
+  .bigstat {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: clamp(7rem, 16vw, 15rem);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: var(--sage-700);
+  }
+  .slide--sage .bigstat { color: white; }
+
+  /* Cards */
+  .card-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .card-grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .card-grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .card-grid--4 { grid-template-columns: repeat(4, 1fr); }
+  .card-grid--5 { grid-template-columns: repeat(5, 1fr); }
+
+  @media (max-width: 1280px) {
+    .card-grid--5 { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 900px) {
+    .card-grid--3, .card-grid--4, .card-grid--5 { grid-template-columns: 1fr; }
+    .card-grid--2 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: white;
+    padding: 2rem 1.75rem;
+    border-radius: 1.25rem;
+    border: 1px solid var(--sage-100);
+    box-shadow: 0 6px 24px -4px rgba(124, 154, 142, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    position: relative;
+  }
+  .card-anna-mark {
+    position: absolute;
+    top: 1.05rem;
+    right: 1.05rem;
+    width: 22px;
+    height: 22px;
+    color: var(--sage-500);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .slide--sage .card,
+  .slide--sage-deep .card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+  }
+  .slide--sage-light .card {
+    background: white;
+    border: 1px solid var(--sage-100);
+  }
+
+  .card-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--sage-500);
+  }
+  .slide--sage .card-label,
+  .slide--sage-deep .card-label { color: var(--sage-200); }
+
+  .card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--sage-900);
+  }
+  .slide--sage .card-title,
+  .slide--sage-deep .card-title { color: white; }
+
+  .card-body {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.88rem, 1vw, 1rem);
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--text-mute);
+  }
+  .slide--sage .card-body,
+  .slide--sage-deep .card-body { color: rgba(255,255,255,0.8); }
+
+  .card-stat {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(3.5rem, 6vw, 5rem);
+    font-weight: 700;
+    line-height: 0.9;
+    color: var(--sage-700);
+    letter-spacing: -0.03em;
+  }
+  .slide--sage .card-stat { color: white; }
+
+  /* List */
+  .dropList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .dropList li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--sage-100);
+  }
+  .dropList li:last-child { border-bottom: none; }
+  .dropList .number {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.1rem, 1.4vw, 1.3rem);
+    color: var(--sage-400);
+    min-width: 2ch;
+  }
+  .dropList .content {
+    flex: 1;
+  }
+  .dropList .title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    color: var(--sage-900);
+    margin-bottom: 0.25rem;
+    line-height: 1.25;
+  }
+  .dropList .desc {
+    font-size: clamp(0.9rem, 1.05vw, 1.05rem);
+    color: var(--text-mute);
+    line-height: 1.5;
+  }
+
+  /* Bio list — simple bullets with coral dot */
+  .bio-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    max-width: 820px;
+  }
+  .bio-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+    line-height: 1.45;
+    color: var(--text);
+    font-weight: 400;
+  }
+  .bio-list li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--coral);
+    margin-top: 0.6em;
+  }
+  .bio-list li strong {
+    color: var(--sage-800);
+    font-weight: 600;
+  }
+
+  /* Agenda list — numbered roadmap */
+  .agenda-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-width: 960px;
+  }
+  .agenda-list li {
+    display: flex;
+    gap: 1.75rem;
+    align-items: flex-start;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--sage-100);
+  }
+  .agenda-list li:last-child { border-bottom: none; }
+  .agenda-num {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.4rem, 1.8vw, 1.7rem);
+    color: var(--coral);
+    min-width: 3ch;
+    line-height: 1;
+    padding-top: 0.15em;
+    letter-spacing: 0.02em;
+  }
+  .agenda-content {
+    flex: 1;
+  }
+  .agenda-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.35rem, 1.9vw, 1.8rem);
+    color: var(--sage-900);
+    line-height: 1.2;
+    margin-bottom: 0.35rem;
+  }
+  .agenda-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.9rem, 1.1vw, 1.1rem);
+    color: var(--text-mute);
+    line-height: 1.4;
+    font-weight: 400;
+  }
+
+  /* Outsource group — two visual sections on one slide */
+  .outsource-group {
+    margin-bottom: 1.75rem;
+    width: 100%;
+  }
+  .outsource-group:last-child {
+    margin-bottom: 0;
+  }
+  .group-label {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.2rem, 1.7vw, 1.5rem);
+    color: var(--sage-900);
+    margin-bottom: 0.35rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .slide--sage .group-label,
+  .slide--sage-deep .group-label { color: white; }
+  .group-body {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.88rem, 1.05vw, 1.05rem);
+    color: var(--sage-700);
+    line-height: 1.45;
+    margin-bottom: 1rem;
+    max-width: 800px;
+  }
+  .slide--sage .group-body,
+  .slide--sage-deep .group-body { color: rgba(255,255,255,0.75); }
+
+  /* Outsourcing stack rank — horizontal bars */
+  .rank-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+    width: 100%;
+    max-width: 1180px;
+  }
+  .rank-row {
+    display: grid;
+    grid-template-columns: 240px 1fr 115px 140px;
+    gap: 1.25rem;
+    align-items: center;
+  }
+  .rank-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .rank-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(1rem, 1.3vw, 1.25rem);
+    font-weight: 600;
+    color: var(--sage-900);
+    line-height: 1.15;
+  }
+  .rank-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.7rem, 0.85vw, 0.82rem);
+    color: var(--text-mute);
+    line-height: 1.35;
+  }
+  .rank-track {
+    background: var(--sage-100);
+    border-radius: 999px;
+    height: 38px;
+    overflow: hidden;
+  }
+  .rank-bar {
+    height: 100%;
+    background: var(--sage-500);
+    border-radius: 999px;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .rank-bar--top {
+    background: var(--coral);
+  }
+  .rank-hrs {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(0.85rem, 1vw, 1rem);
+    font-weight: 600;
+    color: var(--sage-800);
+    white-space: nowrap;
+    text-align: right;
+  }
+  .rank-cost {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(0.85rem, 1vw, 1rem);
+    font-weight: 500;
+    color: var(--sage-600);
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  /* Quote */
+  .quote {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4vw, 3.6rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-style: italic;
+    color: white;
+  }
+  .quote::before {
+    content: '"';
+    display: block;
+    font-size: 4em;
+    line-height: 0.3;
+    color: var(--sage-300);
+    margin-bottom: 0.25em;
+    margin-left: -0.05em;
+  }
+
+  /* Anna logo styling */
+  .anna-logo {
+    width: clamp(48px, 5vw, 72px);
+    height: clamp(48px, 5vw, 72px);
+    display: block;
+  }
+  .anna-logo--hero {
+    width: clamp(90px, 9vw, 140px);
+    height: clamp(90px, 9vw, 140px);
+  }
+
+  /* Progress bar */
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--coral);
+    width: 0;
+    z-index: 100;
+    transition: width 0.25s ease;
+  }
+
+  /* Page number */
+  .pagenum {
+    position: absolute;
+    bottom: 2.5rem;
+    right: 3rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--sage-400);
+    z-index: 3;
+  }
+  .slide--sage .pagenum,
+  .slide--sage-deep .pagenum { color: rgba(255,255,255,0.4); }
+  .slide--sage-light .pagenum { color: var(--sage-600); }
+
+  /* Deck footer brand mark */
+  .brand-mark {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--sage-500);
+    z-index: 3;
+    opacity: 0.7;
+  }
+  .brand-mark svg { width: 22px; height: 22px; }
+  .slide--sage .brand-mark,
+  .slide--sage-deep .brand-mark { color: rgba(255,255,255,0.6); }
+
+  /* Chart container */
+  .chart-wrap {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 2rem;
+  }
+  .chart-wrap svg {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Animations */
+  .slide .slide-inner > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .slide.is-active .slide-inner > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .slide.is-active .slide-inner > *:nth-child(1) { transition-delay: 0.08s; }
+  .slide.is-active .slide-inner > *:nth-child(2) { transition-delay: 0.16s; }
+  .slide.is-active .slide-inner > *:nth-child(3) { transition-delay: 0.24s; }
+  .slide.is-active .slide-inner > *:nth-child(4) { transition-delay: 0.32s; }
+  .slide.is-active .slide-inner > *:nth-child(5) { transition-delay: 0.4s; }
+  .slide.is-active .slide-inner > *:nth-child(6) { transition-delay: 0.48s; }
+
+  /* Accent elements */
+  .divider-line {
+    display: block;
+    width: 64px;
+    height: 3px;
+    background: var(--coral);
+    border-radius: 2px;
+    margin: 1.5rem 0 2rem;
+  }
+  .slide--sage .divider-line { background: var(--sage-200); }
+
+  /* Demo badge */
+  .demo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.9rem;
+    background: var(--coral);
+    color: white;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 2rem;
+  }
+  .demo-badge::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  /* Helper hint */
+  .nav-hint {
+    position: fixed;
+    bottom: 0.6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--sage-400);
+    z-index: 99;
+    pointer-events: none;
+    opacity: 0;
+    animation: hintFade 6s ease both;
+    letter-spacing: 0.05em;
+  }
+  @keyframes hintFade {
+    0% { opacity: 0; }
+    15% { opacity: 0.6; }
+    70% { opacity: 0.6; }
+    100% { opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="nav-hint">↓ SCROLL OR USE ARROW KEYS</div>
+
+<div class="deck" id="deck">
+
+<!-- ========== 1. COVER ========== -->
+<section class="slide slide--sage">
+  <div class="slide-inner stack-lg">
+    <svg class="anna-logo" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M641.163 117.647L642.752 117.869L643.211 119.946C632.42 146.617 623.282 168.789 618.123 197.168C584.856 380.084 665.411 558.404 546.967 725.698C488.362 808.465 401.064 856.559 301.962 874.145C308.207 715.716 349.791 546.584 430.751 409.914C439.359 395.383 448.7 381.102 456.397 366.089C448.478 377.163 436.648 389.989 427.755 400.756C416.484 414.501 405.722 428.655 395.487 443.188C306.097 571.511 264.941 728.521 249.069 882.353C151.097 760.58 150.041 595.467 222.534 461.728C310.351 299.711 465.341 171.861 641.163 117.647Z" fill="white"/>
+      <path d="M657.453 407.637C669.749 414.979 682.546 427.001 693.24 436.911C807.229 542.525 868.404 682.93 802.316 838.375C797.109 849.05 792.452 857.614 786.548 867.905C784.788 860.929 783.419 853.569 781.818 846.503C764.279 768.909 736.24 693.503 697.934 624.561C685.247 601.738 670.176 580.004 656.096 558.115C662.06 504.026 660.142 461.857 657.453 407.637Z" fill="white"/>
+      <path d="M638.654 592.363C645.524 597.611 655.097 617.288 659.633 625.906C702.093 706.635 723.785 790.172 739.345 879.257C705.852 879.139 681.47 873.026 650.179 863.594C602.009 846.435 568.858 825.355 534.191 788.361C594.308 730.287 618.347 669.97 638.654 592.363Z" fill="white"/>
+    </svg>
+    <span class="eyebrow">Moms in Tech · April 21, 2026</span>
+    <h1 class="display">The Invisible<br>20 Hours</h1>
+    <p class="subhead">Systems and AI to cut your family admin in half</p>
+    <p class="cite" style="margin-top: 3rem;">Dilani Kahawala · Founder, Anna</p>
+  </div>
+</section>
+
+<!-- ========== 2. ME ========== -->
+<section class="slide slide--cream-dot">
+  <div class="slide-inner stack">
+    <span class="eyebrow">Hi, I'm Dilani</span>
+    <h2 class="headline">I run an AI company for parents<br>And it still feels like a madhouse</h2>
+    <span class="divider-line"></span>
+    <ul class="bio-list">
+      <li>Mom of 3 kids under 7</li>
+      <li>Husband is CTO at a Series D startup</li>
+      <li>Both of us have unwell parents. Sandwich generation in real time.</li>
+      <li>Pivoted Anna to this problem because I live it every day</li>
+      <li>Talked to hundreds of parents while building Anna</li>
+    </ul>
+  </div>
+  <div class="brand-mark">
+    <svg viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M641.163 117.647L642.752 117.869L643.211 119.946C632.42 146.617 623.282 168.789 618.123 197.168C584.856 380.084 665.411 558.404 546.967 725.698C488.362 808.465 401.064 856.559 301.962 874.145C308.207 715.716 349.791 546.584 430.751 409.914C439.359 395.383 448.7 381.102 456.397 366.089C448.478 377.163 436.648 389.989 427.755 400.756C416.484 414.501 405.722 428.655 395.487 443.188C306.097 571.511 264.941 728.521 249.069 882.353C151.097 760.58 150.041 595.467 222.534 461.728C310.351 299.711 465.341 171.861 641.163 117.647Z" fill="currentColor"/>
+      <path d="M657.453 407.637C669.749 414.979 682.546 427.001 693.24 436.911C807.229 542.525 868.404 682.93 802.316 838.375C797.109 849.05 792.452 857.614 786.548 867.905C784.788 860.929 783.419 853.569 781.818 846.503C764.279 768.909 736.24 693.503 697.934 624.561C685.247 601.738 670.176 580.004 656.096 558.115C662.06 504.026 660.142 461.857 657.453 407.637Z" fill="currentColor"/>
+      <path d="M638.654 592.363C645.524 597.611 655.097 617.288 659.633 625.906C702.093 706.635 723.785 790.172 739.345 879.257C705.852 879.139 681.47 873.026 650.179 863.594C602.009 846.435 568.858 825.355 534.191 788.361C594.308 730.287 618.347 669.97 638.654 592.363Z" fill="currentColor"/>
+    </svg>
+    <span>Anna · The Invisible 20 Hours</span>
+  </div>
+  <div class="pagenum">02</div>
+</section>
+
+<!-- ========== 3. THE DATA: TIME DOUBLED + CHART ========== -->
+<section class="slide slide--cream">
+  <div class="slide-inner stack-lg">
+    <span class="eyebrow">The data</span>
+    <h2 class="headline">Time with kids has doubled since the 1980s</h2>
+    <p class="subhead" style="max-width: 940px;">A working mom today spends <strong style="color: var(--coral);">more</strong> time with her kids than a non-working mom did in 1975.</p>
+
+    <div class="chart-wrap">
+      <svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg">
+        <!-- Grid lines -->
+        <g stroke="#E5EBE8" stroke-width="1">
+          <line x1="80" y1="60"  x2="860" y2="60" />
+          <line x1="80" y1="130" x2="860" y2="130" />
+          <line x1="80" y1="200" x2="860" y2="200" />
+          <line x1="80" y1="270" x2="860" y2="270" />
+          <line x1="80" y1="340" x2="860" y2="340" />
+        </g>
+        <!-- Axis labels: hours -->
+        <g font-family="Inter, sans-serif" font-size="13" fill="#92b3a3" font-weight="500">
+          <text x="60" y="64" text-anchor="end">16</text>
+          <text x="60" y="134" text-anchor="end">12</text>
+          <text x="60" y="204" text-anchor="end">8</text>
+          <text x="60" y="274" text-anchor="end">4</text>
+          <text x="60" y="344" text-anchor="end">0</text>
+        </g>
+        <!-- Axis labels: years -->
+        <g font-family="Inter, sans-serif" font-size="13" fill="#92b3a3" font-weight="500">
+          <text x="80"  y="370" text-anchor="middle">1975</text>
+          <text x="275" y="370" text-anchor="middle">1985</text>
+          <text x="470" y="370" text-anchor="middle">1995</text>
+          <text x="665" y="370" text-anchor="middle">2005</text>
+          <text x="860" y="370" text-anchor="middle">2015</text>
+        </g>
+        <!-- Men line (lighter sage) -->
+        <polyline
+          fill="none"
+          stroke="#A8C5B8"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          points="80,305 275,305 470,270 665,200 860,190"
+        />
+        <!-- Women line (deep sage) -->
+        <polyline
+          fill="none"
+          stroke="#5A7A6E"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          points="80,218 275,208 470,165 665,85 860,70"
+        />
+        <!-- Coral accent dot for 2015 women -->
+        <circle cx="860" cy="70" r="7" fill="#E8A598" stroke="white" stroke-width="2"/>
+        <circle cx="80"  cy="218" r="5" fill="#5A7A6E"/>
+        <!-- Labels on lines -->
+        <g font-family="Outfit, sans-serif" font-weight="600" font-size="15">
+          <text x="830" y="55"  fill="#5A7A6E" text-anchor="end">Women</text>
+          <text x="830" y="180" fill="#92b3a3" text-anchor="end">Men</text>
+        </g>
+      </svg>
+    </div>
+    <p class="cite">Ramey &amp; Ramey, "The Rug Rat Race" · via Corinne Low, ParentData, 2025</p>
+  </div>
+  <div class="pagenum">03</div>
+</section>
+
+<!-- ========== 4. 71% + COGNITIVE STICKINESS ========== -->
+<section class="slide slide--cream-dot">
+  <div class="slide-inner stack-lg">
+    <span class="eyebrow">The invisible part</span>
+    <h2 class="headline">And most of the load is mental,<br>not physical</h2>
+    <div class="card-grid card-grid--2" style="margin-top: 1rem;">
+      <div class="card">
+        <div class="card-stat">71<span style="font-size: 0.5em;">%</span></div>
+        <div class="card-title">of cognitive household labor falls on mothers</div>
+        <div class="card-body">Regardless of income.</div>
+        <div class="card-label">University of Bath · 2025</div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="font-size: clamp(1.5rem, 2.2vw, 2rem); line-height: 1.2;">"You can outsource the task. You can't outsource the thinking."</div>
+        <div class="card-body">You still plan, notice, manage, decide.</div>
+        <div class="card-label">Bath · cognitive stickiness, 2025</div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">04</div>
+</section>
+
+<!-- ========== 5.5 AGENDA / ROADMAP ========== -->
+<section class="slide slide--cream-dot">
+  <div class="slide-inner stack-lg">
+    <span class="eyebrow">What we'll cover</span>
+    <h2 class="headline">Five ways to cut the invisible 20 hours</h2>
+    <ul class="agenda-list">
+      <li>
+        <span class="agenda-num">01</span>
+        <div class="agenda-title">AI tools for day-to-day ops</div>
+      </li>
+      <li>
+        <span class="agenda-num">02</span>
+        <div class="agenda-title">Systems that work</div>
+      </li>
+      <li>
+        <span class="agenda-num">03</span>
+        <div class="agenda-title">How to outsource</div>
+      </li>
+      <li>
+        <span class="agenda-num">04</span>
+        <div class="agenda-title">How to worry less</div>
+      </li>
+      <li>
+        <span class="agenda-num">05</span>
+        <div class="agenda-title">How to drop the ball</div>
+      </li>
+    </ul>
+  </div>
+  <div class="pagenum">05</div>
+</section>
+
+<!-- ========== 5.5 TOOL CONSOLIDATION FRAMING ========== -->
+<section class="slide slide--sage-deep">
+  <div class="slide-inner stack-lg">
+    <span class="eyebrow">The shift that matters</span>
+    <h2 class="display">One agent, not twelve apps</h2>
+    <p class="subhead" style="max-width: 900px;">
+      A general agent replaces a whole stack of specialized tools. The real win is the consolidation itself.
+    </p>
+    <p class="subhead" style="margin-top: 1.5rem; color: var(--coral); font-weight: 600;">
+      Which tools can you stop using?
+    </p>
+  </div>
+  <div class="pagenum">06</div>
+</section>
+
+<!-- ========== 7. ANNA — MAIN AI TOOL ========== -->
+<section class="slide slide--sage">
+  <div class="slide-inner stack-lg">
+    <svg class="anna-logo anna-logo--hero" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M641.163 117.647L642.752 117.869L643.211 119.946C632.42 146.617 623.282 168.789 618.123 197.168C584.856 380.084 665.411 558.404 546.967 725.698C488.362 808.465 401.064 856.559 301.962 874.145C308.207 715.716 349.791 546.584 430.751 409.914C439.359 395.383 448.7 381.102 456.397 366.089C448.478 377.163 436.648 389.989 427.755 400.756C416.484 414.501 405.722 428.655 395.487 443.188C306.097 571.511 264.941 728.521 249.069 882.353C151.097 760.58 150.041 595.467 222.534 461.728C310.351 299.711 465.341 171.861 641.163 117.647Z" fill="white"/>
+      <path d="M657.453 407.637C669.749 414.979 682.546 427.001 693.24 436.911C807.229 542.525 868.404 682.93 802.316 838.375C797.109 849.05 792.452 857.614 786.548 867.905C784.788 860.929 783.419 853.569 781.818 846.503C764.279 768.909 736.24 693.503 697.934 624.561C685.247 601.738 670.176 580.004 656.096 558.115C662.06 504.026 660.142 461.857 657.453 407.637Z" fill="white"/>
+      <path d="M638.654 592.363C645.524 597.611 655.097 617.288 659.633 625.906C702.093 706.635 723.785 790.172 739.345 879.257C705.852 879.139 681.47 873.026 650.179 863.594C602.009 846.435 568.858 825.355 534.191 788.361C594.308 730.287 618.347 669.97 638.654 592.363Z" fill="white"/>
+    </svg>
+    <span class="eyebrow">AI for daily ops</span>
+    <h2 class="display">Anna<br>My daily ops layer</h2>
+    <p class="subhead" style="max-width: 880px;">
+      Catches tasks from email, calendar, WhatsApp, school apps. Turns rambly voice notes into tasks and calendar events. Sends a daily brief. You text her like a friend.
+    </p>
+    <div class="demo-badge">Live Demo</div>
+  </div>
+  <div class="pagenum">07</div>
+</section>
+
+<!-- ========== 7. QUICK HITS: GOOGLE + WISPRFLOW ========== -->
+<section class="slide slide--cream">
+  <div class="slide-inner stack-lg">
+    <span class="eyebrow">Three more quick hits</span>
+    <h2 class="headline">The rest of my AI quick stack</h2>
+    <div class="card-grid card-grid--3" style="margin-top: 1rem;">
+      <div class="card">
+        <div class="card-label">Quick questions</div>
+        <div class="card-title">Google</div>
+        <div class="card-body">Google's AI answers are actually pretty damn good now. ChatGPT is too slow when you just need to know if the library is open.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Voice instead of typing</div>
+        <div class="card-title">WisprFlow</div>
+        <div class="card-body">Cut my typing in half. Turns rambly speech into coherent sentences in real time. Started for work, now I use it for everything.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Kid health tracking</div>
+        <div class="card-title">ChatGPT folders</div>
+        <div class="card-body">One folder per kid with age, weight, blood tests. Ask interpretation questions anytime. Growth over time, always in context.</div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">08</div>
+</section>
+
+<!-- ========== 8. NO SYSTEM EVERY PARENT LOVES ========== -->
+<section class="slide slide--cream-dot">
+  <div class="slide-inner">
+    <span class="eyebrow">Systems that work</span>
+    <h2 class="display" style="margin-top: 1rem;">There's no system<br>every parent loves</h2>
+    <p class="subhead" style="margin-top: 2rem; max-width: 900px;">
+      They fail unless one person becomes the grouchy enforcer. The principle is still worth knowing.
+    </p>
+  </div>
+  <div class="pagenum">09</div>
+</section>
+
+<!-- ========== 9. TRT + 3 SYSTEMS (combined) ========== -->
+<section class="slide slide--cream-dot">
+  <div class="slide-inner stack-lg">
+    <span class="eyebrow">The principle</span>
+    <h2 class="headline">Total Responsibility Transfer</h2>
+    <p class="subhead" style="max-width: 940px;">
+      The other person owns it end-to-end: conceive, plan, execute. If you're still tracking whether it got done, you haven't actually transferred anything.
+    </p>
+    <div class="card-grid card-grid--3" style="margin-top: 1rem;">
+      <div class="card">
+        <div class="card-label">Book · Card deck</div>
+        <div class="card-title">Fair Play</div>
+        <div class="card-body">100 cards, divided between partners. Each owned end-to-end. Works if you can hold an explicit contract.</div>
+        <div class="card-label" style="color: var(--sage-400);">Eve Rodsky</div>
+      </div>
+      <div class="card">
+        <div class="card-label">PM tools</div>
+        <div class="card-title">Asana · Notion · Trello</div>
+        <div class="card-body">Family board for chores, meal planning, school admin, bills. Works if one of you already lives in a PM tool at work.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Research-backed</div>
+        <div class="card-title">Redistribute a whole domain</div>
+        <div class="card-body">Not tasks. All medical, or all school, or all finances. Survive 60 days of turbulence without stepping back in.</div>
+        <div class="card-label" style="color: var(--sage-400);">Daminger, 2025</div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">10</div>
+</section>
+
+<!-- ========== 11. SYSTEM HACKS ========== -->
+<section class="slide slide--cream-dot">
+  <div class="slide-inner stack-lg">
+    <span class="eyebrow">System hacks</span>
+    <h2 class="headline">Smaller moves that compound</h2>
+    <p class="subhead" style="max-width: 880px;">
+      These often work better than enforcing a full system. Less to maintain, less to fight about.
+    </p>
+    <div class="card-grid card-grid--3">
+      <div class="card">
+        <div class="card-title">Partner on every form</div>
+        <div class="card-body">15-min batch update. Kills a category of pings.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Match tasks to the person</div>
+        <div class="card-body">Deadline partners get lunches. Planners get medical.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Daily schedule email</div>
+        <div class="card-body">Oster's day-by-day Sunday email.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Repeatable family routines</div>
+        <div class="card-body">Mornings, bedtimes, weekends on rails.</div>
+      </div>
+      <div class="card">
+        <svg class="card-anna-mark" viewBox="0 0 1000 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M641.163 117.647L642.752 117.869L643.211 119.946C632.42 146.617 623.282 168.789 618.123 197.168C584.856 380.084 665.411 558.404 546.967 725.698C488.362 808.465 401.064 856.559 301.962 874.145C308.207 715.716 349.791 546.584 430.751 409.914C439.359 395.383 448.7 381.102 456.397 366.089C448.478 377.163 436.648 389.989 427.755 400.756C416.484 414.501 405.722 428.655 395.487 443.188C306.097 571.511 264.941 728.521 249.069 882.353C151.097 760.58 150.041 595.467 222.534 461.728C310.351 299.711 465.341 171.861 641.163 117.647Z"/>
+          <path d="M657.453 407.637C669.749 414.979 682.546 427.001 693.24 436.911C807.229 542.525 868.404 682.93 802.316 838.375C797.109 849.05 792.452 857.614 786.548 867.905C784.788 860.929 783.419 853.569 781.818 846.503C764.279 768.909 736.24 693.503 697.934 624.561C685.247 601.738 670.176 580.004 656.096 558.115C662.06 504.026 660.142 461.857 657.453 407.637Z"/>
+          <path d="M638.654 592.363C645.524 597.611 655.097 617.288 659.633 625.906C702.093 706.635 723.785 790.172 739.345 879.257C705.852 879.139 681.47 873.026 650.179 863.594C602.009 846.435 568.858 825.355 534.191 788.361C594.308 730.287 618.347 669.97 638.654 592.363Z"/>
+        </svg>
+        <div class="card-title">Plan meals weekly</div>
+        <div class="card-body">Weekly rotation, not daily decisions.</div>
+      </div>
+      <div class="card">
+        <svg class="card-anna-mark" viewBox="0 0 1000 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M641.163 117.647L642.752 117.869L643.211 119.946C632.42 146.617 623.282 168.789 618.123 197.168C584.856 380.084 665.411 558.404 546.967 725.698C488.362 808.465 401.064 856.559 301.962 874.145C308.207 715.716 349.791 546.584 430.751 409.914C439.359 395.383 448.7 381.102 456.397 366.089C448.478 377.163 436.648 389.989 427.755 400.756C416.484 414.501 405.722 428.655 395.487 443.188C306.097 571.511 264.941 728.521 249.069 882.353C151.097 760.58 150.041 595.467 222.534 461.728C310.351 299.711 465.341 171.861 641.163 117.647Z"/>
+          <path d="M657.453 407.637C669.749 414.979 682.546 427.001 693.24 436.911C807.229 542.525 868.404 682.93 802.316 838.375C797.109 849.05 792.452 857.614 786.548 867.905C784.788 860.929 783.419 853.569 781.818 846.503C764.279 768.909 736.24 693.503 697.934 624.561C685.247 601.738 670.176 580.004 656.096 558.115C662.06 504.026 660.142 461.857 657.453 407.637Z"/>
+          <path d="M638.654 592.363C645.524 597.611 655.097 617.288 659.633 625.906C702.093 706.635 723.785 790.172 739.345 879.257C705.852 879.139 681.47 873.026 650.179 863.594C602.009 846.435 568.858 825.355 534.191 788.361C594.308 730.287 618.347 669.97 638.654 592.363Z"/>
+        </svg>
+        <div class="card-title">Custom weekend plan</div>
+        <div class="card-body">Activities filtered for weather and ages.</div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">11</div>
+</section>
+
+<!-- ========== 11. HOW TO OUTSOURCE ========== -->
+<section class="slide slide--sage-light">
+  <div class="slide-inner stack">
+    <span class="eyebrow">How to outsource</span>
+    <h2 class="headline">Two kinds of tasks, two kinds of help</h2>
+
+    <!-- Group 1: Research & planning → AI -->
+    <div class="outsource-group">
+      <div class="group-label">Research &amp; planning → all AI now</div>
+      <div class="card-grid card-grid--2">
+        <div class="card">
+          <div class="card-label">AI · Research</div>
+          <div class="card-title">Claude Code · browser agents</div>
+        </div>
+        <div class="card">
+          <div class="card-label">AI · Ops &amp; follow-through</div>
+          <div class="card-title">Anna</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Group 2: Human for tasks that need a human -->
+    <div class="outsource-group">
+      <div class="group-label">Tasks that still need a real human</div>
+      <div class="card-grid card-grid--3">
+        <div class="card">
+          <div class="card-label">~$10 / hr</div>
+          <div class="card-title">TaskBullet</div>
+          <div class="card-body">One-off phone tasks and chores.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">$169 / month</div>
+          <div class="card-title">Duckbill</div>
+          <div class="card-body">Humans + AI. Appointments, bookings.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">$1.5k–$3.6k / month</div>
+          <div class="card-title">House manager</div>
+          <div class="card-body">Needs real decision authority to pay off.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">12</div>
+</section>
+
+<!-- ========== 13. OUTSOURCING STACK RANK ========== -->
+<section class="slide slide--cream-dot">
+  <div class="slide-inner stack-lg">
+    <span class="eyebrow">The outsourcing stack rank</span>
+    <h2 class="headline">What pays off the most</h2>
+    <p class="subhead" style="max-width: 860px;">
+      Ordered by hours you get back per week. Cost assumes a typical working family.
+    </p>
+    <div class="rank-list">
+      <div class="rank-row">
+        <div class="rank-label">
+          <div class="rank-name">Prepared meals</div>
+        </div>
+        <div class="rank-track">
+          <div class="rank-bar rank-bar--top" style="width: 100%;"></div>
+        </div>
+        <div class="rank-hrs">7–14 hrs/wk</div>
+        <div class="rank-cost">$100–250/wk</div>
+      </div>
+      <div class="rank-row">
+        <div class="rank-label">
+          <div class="rank-name">Weekly cleaner</div>
+        </div>
+        <div class="rank-track">
+          <div class="rank-bar" style="width: 45%;"></div>
+        </div>
+        <div class="rank-hrs">3–5 hrs/wk</div>
+        <div class="rank-cost">$120–200/wk</div>
+      </div>
+      <div class="rank-row">
+        <div class="rank-label">
+          <div class="rank-name">Laundry wash-and-fold</div>
+        </div>
+        <div class="rank-track">
+          <div class="rank-bar" style="width: 32%;"></div>
+        </div>
+        <div class="rank-hrs">2–4 hrs/wk</div>
+        <div class="rank-cost">$40–100/wk</div>
+      </div>
+      <div class="rank-row">
+        <div class="rank-label">
+          <div class="rank-name">Grocery delivery</div>
+        </div>
+        <div class="rank-track">
+          <div class="rank-bar" style="width: 24%;"></div>
+        </div>
+        <div class="rank-hrs">1–3 hrs/wk</div>
+        <div class="rank-cost">$10–30/wk</div>
+      </div>
+      <div class="rank-row">
+        <div class="rank-label">
+          <div class="rank-name">Lawn / garden</div>
+        </div>
+        <div class="rank-track">
+          <div class="rank-bar" style="width: 24%;"></div>
+        </div>
+        <div class="rank-hrs">1–3 hrs/wk</div>
+        <div class="rank-cost">$50–200/mo</div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">13</div>
+</section>
+
+<!-- ========== 14. WORRY IS MOST OF MENTAL LOAD ========== -->
+<section class="slide slide--sage-deep">
+  <div class="slide-inner">
+    <span class="eyebrow">How to worry less</span>
+    <h2 class="display">Most mental load is worry</h2>
+    <p class="subhead" style="margin-top: 2rem; font-weight: 600; color: var(--coral);">
+      The rule: don't care about anything without real data behind it.
+    </p>
+  </div>
+  <div class="pagenum">14</div>
+</section>
+
+<!-- ========== 14. THREE WORRY CATEGORIES ========== -->
+<section class="slide slide--cream">
+  <div class="slide-inner stack-lg">
+    <span class="eyebrow">Three categories to stop worrying about</span>
+    <h2 class="headline">Pick the one you lose the most hours to</h2>
+    <div class="card-grid card-grid--3">
+      <div class="card">
+        <div class="card-label">Category 1</div>
+        <div class="card-title">Medical &amp; wellness</div>
+        <div class="card-body">Red light masks. Multivitamins. Microplastics. Breastfeeding past one. Thin data either way.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Category 2</div>
+        <div class="card-title">Developmental milestones</div>
+        <div class="card-body">Crawling at 9 months. Talking by 2. Fine motor. The normal range is huge.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Category 3</div>
+        <div class="card-title">Early education &amp; enrichment</div>
+        <div class="card-body">Montessori vs. play-based. Chinese immersion. Music at 2. Thin evidence, same Rug Rat Race.</div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">15</div>
+</section>
+
+<!-- ========== 15. ANNA SHORTCUT ========== -->
+<section class="slide slide--sage">
+  <div class="slide-inner stack-lg">
+    <svg class="anna-logo" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M641.163 117.647L642.752 117.869L643.211 119.946C632.42 146.617 623.282 168.789 618.123 197.168C584.856 380.084 665.411 558.404 546.967 725.698C488.362 808.465 401.064 856.559 301.962 874.145C308.207 715.716 349.791 546.584 430.751 409.914C439.359 395.383 448.7 381.102 456.397 366.089C448.478 377.163 436.648 389.989 427.755 400.756C416.484 414.501 405.722 428.655 395.487 443.188C306.097 571.511 264.941 728.521 249.069 882.353C151.097 760.58 150.041 595.467 222.534 461.728C310.351 299.711 465.341 171.861 641.163 117.647Z" fill="white"/>
+      <path d="M657.453 407.637C669.749 414.979 682.546 427.001 693.24 436.911C807.229 542.525 868.404 682.93 802.316 838.375C797.109 849.05 792.452 857.614 786.548 867.905C784.788 860.929 783.419 853.569 781.818 846.503C764.279 768.909 736.24 693.503 697.934 624.561C685.247 601.738 670.176 580.004 656.096 558.115C662.06 504.026 660.142 461.857 657.453 407.637Z" fill="white"/>
+      <path d="M638.654 592.363C645.524 597.611 655.097 617.288 659.633 625.906C702.093 706.635 723.785 790.172 739.345 879.257C705.852 879.139 681.47 873.026 650.179 863.594C602.009 846.435 568.858 825.355 534.191 788.361C594.308 730.287 618.347 669.97 638.654 592.363Z" fill="white"/>
+    </svg>
+    <span class="eyebrow">One shortcut for all three</span>
+    <h2 class="headline">Text Anna<br>She pulls from Emily Oster's research</h2>
+    <p class="subhead" style="max-width: 880px;">
+      Connect Anna to ParentData once. After that, text her whenever a worry comes up. If Oster hasn't covered it, or she has and the evidence is thin, drop it. Hundreds of hours saved on things I really shouldn't care about.
+    </p>
+  </div>
+  <div class="pagenum">16</div>
+</section>
+
+<!-- ========== 16. DROP THE BALL ========== -->
+<section class="slide slide--sage-deep">
+  <div class="slide-inner">
+    <span class="eyebrow">How to drop the ball</span>
+    <h2 class="display">Pick one ball</h2>
+    <p class="subhead" style="margin-top: 2rem;">Drop it this week. Usually, nothing happens.</p>
+    <p class="subhead" style="margin-top: 2rem; font-weight: 600; color: var(--coral);">
+      Be a "yes and no" parent.
+    </p>
+  </div>
+  <div class="pagenum">17</div>
+</section>
+
+<!-- ========== 17. WHAT TO DROP ========== -->
+<section class="slide slide--cream">
+  <div class="slide-inner stack-lg">
+    <span class="eyebrow">Specific balls parents dropped</span>
+    <h2 class="headline">Pick one</h2>
+    <ol class="dropList">
+      <li>
+        <span class="number">01</span>
+        <div class="content">
+          <div class="title">No organized activities until they turn 3</div>
+          <div class="desc">A VP of mine told me this. They don't remember any of it. No ballet, no music, no toddler soccer. It has saved my life.</div>
+        </div>
+      </li>
+      <li>
+        <span class="number">02</span>
+        <div class="content">
+          <div class="title">Cap each kid at one sport per season</div>
+          <div class="desc">Two or three at once is a calendar and driving disaster. A lot of parents still try it.</div>
+        </div>
+      </li>
+      <li>
+        <span class="number">03</span>
+        <div class="content">
+          <div class="title">Don't consume everything about your kid's day</div>
+          <div class="desc">Your parents had no idea what you were doing at school. No photos sent, no class apps, no daily updates. Close those notifications.</div>
+        </div>
+      </li>
+      <li>
+        <span class="number">04</span>
+        <div class="content">
+          <div class="title">Stop volunteering at school</div>
+          <div class="desc">One email to the teacher. The other parents who want to volunteer will be fine.</div>
+        </div>
+      </li>
+    </ol>
+  </div>
+  <div class="pagenum">18</div>
+</section>
+
+<!-- ========== 18. SMART OFFLOADS ========== -->
+<section class="slide slide--cream-dot">
+  <div class="slide-inner stack-lg">
+    <span class="eyebrow">Two smart offloads</span>
+    <h2 class="headline">Stack time<br>Outsource the entertaining</h2>
+    <div class="card-grid card-grid--2">
+      <div class="card">
+        <div class="card-title">Multi-task where you can</div>
+        <div class="card-body">I read to my daughter while I'm stretching at the end of a run. I call my parents while I'm stacking the dishwasher at night. Two things in one slot.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">ChatGPT voice mode for the kids</div>
+        <div class="card-body">You don't have to be the 24/7 question-answering service. Open voice mode, hand them the phone, and let them go from Minecraft to dinosaur evolution. Perfect for long drives and cooking time.</div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">19</div>
+</section>
+
+<!-- ========== 19. CLOSE ========== -->
+<section class="slide slide--sage">
+  <div class="slide-inner slide-inner--center stack-lg">
+    <svg class="anna-logo anna-logo--hero" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin: 0 auto;">
+      <path d="M641.163 117.647L642.752 117.869L643.211 119.946C632.42 146.617 623.282 168.789 618.123 197.168C584.856 380.084 665.411 558.404 546.967 725.698C488.362 808.465 401.064 856.559 301.962 874.145C308.207 715.716 349.791 546.584 430.751 409.914C439.359 395.383 448.7 381.102 456.397 366.089C448.478 377.163 436.648 389.989 427.755 400.756C416.484 414.501 405.722 428.655 395.487 443.188C306.097 571.511 264.941 728.521 249.069 882.353C151.097 760.58 150.041 595.467 222.534 461.728C310.351 299.711 465.341 171.861 641.163 117.647Z" fill="white"/>
+      <path d="M657.453 407.637C669.749 414.979 682.546 427.001 693.24 436.911C807.229 542.525 868.404 682.93 802.316 838.375C797.109 849.05 792.452 857.614 786.548 867.905C784.788 860.929 783.419 853.569 781.818 846.503C764.279 768.909 736.24 693.503 697.934 624.561C685.247 601.738 670.176 580.004 656.096 558.115C662.06 504.026 660.142 461.857 657.453 407.637Z" fill="white"/>
+      <path d="M638.654 592.363C645.524 597.611 655.097 617.288 659.633 625.906C702.093 706.635 723.785 790.172 739.345 879.257C705.852 879.139 681.47 873.026 650.179 863.594C602.009 846.435 568.858 825.355 534.191 788.361C594.308 730.287 618.347 669.97 638.654 592.363Z" fill="white"/>
+    </svg>
+    <h2 class="display" style="font-size: clamp(3rem, 6vw, 5rem);">hianna.ai</h2>
+    <div style="margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.2); max-width: 640px; margin-left: auto; margin-right: auto;">
+      <span class="eyebrow" style="color: var(--coral); font-weight: 700;">Founding Families offer</span>
+      <p class="subhead" style="margin-top: 1rem;">Refer 10 families and get Anna free for life.</p>
+    </div>
+  </div>
+  <div class="pagenum">20</div>
+</section>
+
+</div>
+
+<script>
+  const deck = document.getElementById('deck');
+  const progress = document.getElementById('progress');
+  const slides = document.querySelectorAll('.slide');
+
+  // Progress bar
+  function updateProgress() {
+    const total = deck.scrollHeight - deck.clientHeight;
+    const pct = total > 0 ? (deck.scrollTop / total) * 100 : 0;
+    progress.style.width = pct + '%';
+  }
+  deck.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // Active slide for entrance animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.intersectionRatio > 0.55) {
+        entry.target.classList.add('is-active');
+      }
+    });
+  }, { threshold: [0.55, 0.75] });
+  slides.forEach((slide) => observer.observe(slide));
+
+  // First slide active by default
+  slides[0].classList.add('is-active');
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    const h = window.innerHeight;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault();
+      deck.scrollBy({ top: h, behavior: 'smooth' });
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      deck.scrollBy({ top: -h, behavior: 'smooth' });
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      deck.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      deck.scrollTo({ top: deck.scrollHeight, behavior: 'smooth' });
+    }
+  });
+</script>
+</body>
+</html>
