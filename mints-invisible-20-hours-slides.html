@@ -209,6 +209,98 @@
     gap: 0.6rem;
     position: relative;
   }
+  /* Anna feature slides — split layout with visual placeholder */
+  .anna-feature-slide {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    align-items: center;
+    width: 100%;
+  }
+  .feature-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .feature-visual {
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid var(--sage-200);
+    border-radius: 1.25rem;
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-height: 280px;
+    justify-content: center;
+  }
+  .visual-header {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    font-weight: 600;
+    color: var(--sage-800);
+  }
+  .tool-labels {
+    display: flex;
+    gap: 1rem;
+  }
+  .tool-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--sage-700);
+    padding: 0.45rem 1rem;
+    background: white;
+    border-radius: 999px;
+    border: 1px solid var(--sage-200);
+  }
+  .visual-placeholder {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: var(--sage-400);
+    padding: 2rem;
+  }
+  .visual-footer {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    color: var(--sage-500);
+    font-weight: 500;
+    font-style: italic;
+  }
+  .setup-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    width: 100%;
+  }
+  .setup-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .setup-hints {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0;
+    margin: 0;
+  }
+  .setup-hints li {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.78rem, 0.9vw, 0.88rem);
+    color: var(--sage-700);
+    line-height: 1.4;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .setup-hints li::before {
+    content: '\2192';
+    position: absolute;
+    left: 0;
+    color: var(--sage-400);
+    font-size: 0.75rem;
+  }
+
   .card-anna-mark {
     position: absolute;
     top: 1.05rem;
@@ -823,7 +915,7 @@
     <span class="eyebrow">The shift that matters</span>
     <h2 class="display">One agent, not twelve apps</h2>
     <p class="subhead" style="max-width: 900px;">
-      A general agent replaces a whole stack of specialized tools. The real win is the consolidation itself.
+      A general agent replaces a whole stack of specialized tools.
     </p>
     <p class="subhead" style="margin-top: 1.5rem; color: var(--coral); font-weight: 600;">
       Which tools can you stop using?
@@ -850,7 +942,192 @@
   <div class="pagenum">07</div>
 </section>
 
-<!-- ========== 7. QUICK HITS: GOOGLE + WISPRFLOW ========== -->
+<!-- ========== 7.5 FOUR CONCEPTS BEHIND AI ASSISTANTS ========== -->
+<section class="slide slide--sage">
+  <div class="slide-inner stack-lg">
+    <span class="eyebrow">What makes this work</span>
+    <h2 class="headline">Four concepts behind an AI assistant</h2>
+    <div class="card-grid card-grid--2" style="margin-top: 1rem;">
+      <div class="card">
+        <div class="card-label">01</div>
+        <div class="card-title">Simple conversation, no UI</div>
+        <div class="card-body">Text or voice. No dashboards, no tabs, no learning curve. We've gone back to just talking.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">02</div>
+        <div class="card-title">Long-running agent</div>
+        <div class="card-body">Always on, always aware of your family's state. The hardest piece to build. The harness around it is where the real work is.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">03</div>
+        <div class="card-title">Proactivity</div>
+        <div class="card-body">Asks "what can I do next?" in the context of your family. Doesn't wait for you to remember.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">04</div>
+        <div class="card-title">Source to action</div>
+        <div class="card-body">Reads from one source (email, school app), takes action on another (calendar, SMS, shopping). Connects the dots you used to hold in your head.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 8. ANNA: TALKS TO YOU WHERE YOU ARE ========== -->
+<section class="slide slide--cream-dot">
+  <div class="slide-inner slide-inner--wide">
+    <div class="anna-feature-slide">
+      <div class="feature-content">
+        <h2 class="headline">Talks to you where you are</h2>
+        <ul class="bio-list">
+          <li>Talk via your preferred channel: SMS or WhatsApp</li>
+          <li>Turns rambly midnight texts into structured tasks and events</li>
+          <li>Works like texting a friend</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="setup-cols">
+          <div class="setup-col">
+            <div class="tool-label">Claude Code</div>
+            <ul class="setup-hints">
+              <li>Twilio MCP server for outbound SMS</li>
+              <li>/voice command (hold spacebar, speak)</li>
+              <li>Pair with a WhatsApp bridge for inbound</li>
+            </ul>
+          </div>
+          <div class="setup-col">
+            <div class="tool-label">OpenClaw</div>
+            <ul class="setup-hints">
+              <li>25+ channels: WhatsApp, Telegram, Slack, Signal</li>
+              <li>Scan QR to pair WhatsApp</li>
+              <li>Cross-channel memory (start on WA, continue on Telegram)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">08</div>
+</section>
+
+<!-- ========== 9. ANNA: FAMILY MANAGEMENT ========== -->
+<section class="slide slide--sage-light">
+  <div class="slide-inner slide-inner--wide">
+    <div class="anna-feature-slide">
+      <div class="feature-content">
+        <h2 class="headline">Proactive family management</h2>
+        <ul class="bio-list">
+          <li>Catches tasks buried in school newsletters and emails</li>
+          <li>Full calendar management with your preferences</li>
+          <li>Daily brief with what's coming up</li>
+          <li>Connect your email, calendar, WhatsApp, school apps</li>
+          <li>Collaborate with your spouse: shared tasks and visibility</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="setup-cols">
+          <div class="setup-col">
+            <div class="tool-label">Claude Code</div>
+            <ul class="setup-hints">
+              <li>Gmail + Calendar connectors (first-party OAuth)</li>
+              <li>Create a /daily-brief skill in SKILL.md</li>
+              <li>Cloud Routines run with laptop closed</li>
+            </ul>
+          </div>
+          <div class="setup-col">
+            <div class="tool-label">OpenClaw</div>
+            <ul class="setup-hints">
+              <li>HEARTBEAT.md with task intervals</li>
+              <li>Morning brief at activeHours start</li>
+              <li>Runs 24/7 as a daemon, survives restarts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">09</div>
+</section>
+
+<!-- ========== 10. ANNA: CUSTOMIZABLE AUTOMATIONS ========== -->
+<section class="slide slide--cream-dot">
+  <div class="slide-inner slide-inner--wide">
+    <div class="anna-feature-slide">
+      <div class="feature-content">
+        <h2 class="headline">Customizable, easy to set automations</h2>
+        <ul class="bio-list">
+          <li>Sets reminders and follows up</li>
+          <li>Meal planning on a schedule</li>
+          <li>Podcast summaries</li>
+          <li>Health news on demand</li>
+          <li>What the kids did today at childcare, on demand</li>
+          <li>Tell Anna what you want automated and she sets it up</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="setup-cols">
+          <div class="setup-col">
+            <div class="tool-label">Claude Code</div>
+            <ul class="setup-hints">
+              <li>SKILL.md with YAML frontmatter</li>
+              <li>/schedule for Cloud Routines (hourly, daily, weekly)</li>
+              <li>Inject live data via shell commands in skills</li>
+            </ul>
+          </div>
+          <div class="setup-col">
+            <div class="tool-label">OpenClaw</div>
+            <ul class="setup-hints">
+              <li>HEARTBEAT.md scheduler (configurable intervals)</li>
+              <li>13K+ skills on ClawHub registry</li>
+              <li>Always-on daemon, no session needed</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">10</div>
+</section>
+
+<!-- ========== 11. ANNA: KNOWS YOU ========== -->
+<section class="slide slide--sage-light">
+  <div class="slide-inner slide-inner--wide">
+    <div class="anna-feature-slide">
+      <div class="feature-content">
+        <h2 class="headline">Knows you and has all the answers</h2>
+        <ul class="bio-list">
+          <li>Learns your family as you go: kids, schools, routines, preferences</li>
+          <li>Ask her anything about your family and she'll know the context</li>
+          <li>Auto-find gift options when a birthday is coming up</li>
+          <li>Text a health question, she pulls from Emily Oster's research</li>
+          <li>The more you use her, the better she gets</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="setup-cols">
+          <div class="setup-col">
+            <div class="tool-label">Claude Code</div>
+            <ul class="setup-hints">
+              <li>CLAUDE.md loads family context every session</li>
+              <li>Auto-memory persists across conversations</li>
+              <li>WebFetch for ParentData articles on demand</li>
+            </ul>
+          </div>
+          <div class="setup-col">
+            <div class="tool-label">OpenClaw</div>
+            <ul class="setup-hints">
+              <li>SOUL.md + USER.md for family context</li>
+              <li>MEMORY.md persists across sessions</li>
+              <li>Context follows you across all channels</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">11</div>
+</section>
+
+<!-- ========== 12. QUICK HITS: GOOGLE + WISPRFLOW ========== -->
 <section class="slide slide--cream">
   <div class="slide-inner stack-lg">
     <span class="eyebrow">Three more quick hits</span>
@@ -873,7 +1150,7 @@
       </div>
     </div>
   </div>
-  <div class="pagenum">08</div>
+  <div class="pagenum">12</div>
 </section>
 
 <!-- ========== 8. NO SYSTEM EVERY PARENT LOVES ========== -->
@@ -885,7 +1162,7 @@
       They fail unless one person becomes the grouchy enforcer. The principle is still worth knowing.
     </p>
   </div>
-  <div class="pagenum">09</div>
+  <div class="pagenum">13</div>
 </section>
 
 <!-- ========== 9. TRT + 3 SYSTEMS (combined) ========== -->
@@ -916,7 +1193,7 @@
       </div>
     </div>
   </div>
-  <div class="pagenum">10</div>
+  <div class="pagenum">14</div>
 </section>
 
 <!-- ========== 11. SYSTEM HACKS ========== -->
@@ -964,7 +1241,7 @@
       </div>
     </div>
   </div>
-  <div class="pagenum">11</div>
+  <div class="pagenum">15</div>
 </section>
 
 <!-- ========== 11. HOW TO OUTSOURCE ========== -->
@@ -1010,7 +1287,7 @@
       </div>
     </div>
   </div>
-  <div class="pagenum">12</div>
+  <div class="pagenum">16</div>
 </section>
 
 <!-- ========== 13. OUTSOURCING STACK RANK ========== -->
@@ -1018,9 +1295,6 @@
   <div class="slide-inner stack-lg">
     <span class="eyebrow">The outsourcing stack rank</span>
     <h2 class="headline">What pays off the most</h2>
-    <p class="subhead" style="max-width: 860px;">
-      Ordered by hours you get back per week. Cost assumes a typical working family.
-    </p>
     <div class="rank-list">
       <div class="rank-row">
         <div class="rank-label">
@@ -1030,7 +1304,7 @@
           <div class="rank-bar rank-bar--top" style="width: 100%;"></div>
         </div>
         <div class="rank-hrs">7–14 hrs/wk</div>
-        <div class="rank-cost">$100–250/wk</div>
+        <div class="rank-cost">$150–300/wk</div>
       </div>
       <div class="rank-row">
         <div class="rank-label">
@@ -1040,7 +1314,7 @@
           <div class="rank-bar" style="width: 45%;"></div>
         </div>
         <div class="rank-hrs">3–5 hrs/wk</div>
-        <div class="rank-cost">$120–200/wk</div>
+        <div class="rank-cost">$150–300/wk</div>
       </div>
       <div class="rank-row">
         <div class="rank-label">
@@ -1060,7 +1334,7 @@
           <div class="rank-bar" style="width: 24%;"></div>
         </div>
         <div class="rank-hrs">1–3 hrs/wk</div>
-        <div class="rank-cost">$10–30/wk</div>
+        <div class="rank-cost">$15–40/wk</div>
       </div>
       <div class="rank-row">
         <div class="rank-label">
@@ -1070,11 +1344,11 @@
           <div class="rank-bar" style="width: 24%;"></div>
         </div>
         <div class="rank-hrs">1–3 hrs/wk</div>
-        <div class="rank-cost">$50–200/mo</div>
+        <div class="rank-cost">$150–400/mo</div>
       </div>
     </div>
   </div>
-  <div class="pagenum">13</div>
+  <div class="pagenum">17</div>
 </section>
 
 <!-- ========== 14. WORRY IS MOST OF MENTAL LOAD ========== -->
@@ -1086,7 +1360,7 @@
       The rule: don't care about anything without real data behind it.
     </p>
   </div>
-  <div class="pagenum">14</div>
+  <div class="pagenum">18</div>
 </section>
 
 <!-- ========== 14. THREE WORRY CATEGORIES ========== -->
@@ -1112,7 +1386,7 @@
       </div>
     </div>
   </div>
-  <div class="pagenum">15</div>
+  <div class="pagenum">19</div>
 </section>
 
 <!-- ========== 15. ANNA SHORTCUT ========== -->
@@ -1129,7 +1403,7 @@
       Connect Anna to ParentData once. After that, text her whenever a worry comes up. If Oster hasn't covered it, or she has and the evidence is thin, drop it. Hundreds of hours saved on things I really shouldn't care about.
     </p>
   </div>
-  <div class="pagenum">16</div>
+  <div class="pagenum">20</div>
 </section>
 
 <!-- ========== 16. DROP THE BALL ========== -->
@@ -1142,7 +1416,7 @@
       Be a "yes and no" parent.
     </p>
   </div>
-  <div class="pagenum">17</div>
+  <div class="pagenum">21</div>
 </section>
 
 <!-- ========== 17. WHAT TO DROP ========== -->
@@ -1155,33 +1429,29 @@
         <span class="number">01</span>
         <div class="content">
           <div class="title">No organized activities until they turn 3</div>
-          <div class="desc">A VP of mine told me this. They don't remember any of it. No ballet, no music, no toddler soccer. It has saved my life.</div>
         </div>
       </li>
       <li>
         <span class="number">02</span>
         <div class="content">
           <div class="title">Cap each kid at one sport per season</div>
-          <div class="desc">Two or three at once is a calendar and driving disaster. A lot of parents still try it.</div>
         </div>
       </li>
       <li>
         <span class="number">03</span>
         <div class="content">
           <div class="title">Don't consume everything about your kid's day</div>
-          <div class="desc">Your parents had no idea what you were doing at school. No photos sent, no class apps, no daily updates. Close those notifications.</div>
         </div>
       </li>
       <li>
         <span class="number">04</span>
         <div class="content">
           <div class="title">Stop volunteering at school</div>
-          <div class="desc">One email to the teacher. The other parents who want to volunteer will be fine.</div>
         </div>
       </li>
     </ol>
   </div>
-  <div class="pagenum">18</div>
+  <div class="pagenum">22</div>
 </section>
 
 <!-- ========== 18. SMART OFFLOADS ========== -->
@@ -1200,7 +1470,7 @@
       </div>
     </div>
   </div>
-  <div class="pagenum">19</div>
+  <div class="pagenum">23</div>
 </section>
 
 <!-- ========== 19. CLOSE ========== -->
@@ -1217,7 +1487,7 @@
       <p class="subhead" style="margin-top: 1rem;">Refer 10 families and get Anna free for life.</p>
     </div>
   </div>
-  <div class="pagenum">20</div>
+  <div class="pagenum">24</div>
 </section>
 
 </div>
