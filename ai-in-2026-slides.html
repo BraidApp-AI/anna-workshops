@@ -748,6 +748,55 @@
     margin-bottom: 16px;
   }
 
+  /* Anna hero slide (magazine-cover treatment on sage) */
+  .anna-hero-slide {
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    background: var(--sage-500);
+    background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .anna-hero-slide::after {
+    background: linear-gradient(180deg, rgba(124,154,142,0) 0%, rgba(90,122,110,0.25) 100%);
+  }
+  .anna-hero-slide .anna-logo {
+    width: clamp(72px, 7vw, 120px);
+    height: clamp(72px, 7vw, 120px);
+    display: block;
+    margin-bottom: 2rem;
+  }
+  .anna-hero-slide .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.75rem, 0.95vw, 0.95rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--sage-200);
+    margin-bottom: 1.8rem;
+    display: inline-block;
+  }
+  .anna-hero-slide h1.display {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(3.4rem, 7.6vw, 6.4rem);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    color: white;
+    margin: 0 0 2rem 0;
+  }
+  .anna-hero-slide p.hero-body {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: clamp(1.25rem, 2vw, 1.9rem);
+    line-height: 1.35;
+    color: var(--sage-100);
+    letter-spacing: -0.01em;
+    max-width: 880px;
+    margin: 0;
+  }
+  .anna-hero-slide .slide-number { color: rgba(255,255,255,0.6); }
+
   /* Responsive for projector */
   @media (min-width: 1920px) {
     h1 { font-size: 5.8rem; }
@@ -881,27 +930,15 @@
   </div>
 
   <!-- SLIDE 2: Anna intro -->
-  <div class="slide" id="slide-2">
-    <div class="bg-glow bg-glow-1"></div>
-    <div class="bg-glow bg-glow-3"></div>
-    <div class="section-label">Quick context</div>
-    <h2>I'm building <span class="gradient-text-3">Anna</span>.</h2>
-    <p class="big-text" style="margin-bottom: 20px;">AI assistant for the invisible <span class="gradient-text-2">20 hours</span> of family admin every week.</p>
-    <div class="card-grid card-grid-3" style="margin-top: 16px;">
-      <div class="card green-border">
-        <h3 style="color: var(--accent-green);">WhatsApp-first</h3>
-        <p>Text or voice-note Anna the way you already message everyone else. No new app to learn.</p>
-      </div>
-      <div class="card blue-border">
-        <h3 style="color: var(--accent-blue);">Reads the inbox</h3>
-        <p>Catches school emails, schedules the events, tracks the to-dos. You stop being the human forwarding service.</p>
-      </div>
-      <div class="card red-border">
-        <h3 style="color: var(--accent-red);">Built for parents. By parents.</h3>
-        <p>Two kids, two founders, one shared calendar nobody reads. We're building the thing we needed.</p>
-      </div>
-    </div>
-    <div class="takeaway"><strong>hianna.ai</strong></div>
+  <div class="slide anna-hero-slide" id="slide-2">
+    <svg class="anna-logo" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Anna logo">
+      <path d="M641.163 117.647L642.752 117.869L643.211 119.946C632.42 146.617 623.282 168.789 618.123 197.168C584.856 380.084 665.411 558.404 546.967 725.698C488.362 808.465 401.064 856.559 301.962 874.145C308.207 715.716 349.791 546.584 430.751 409.914C439.359 395.383 448.7 381.102 456.397 366.089C448.478 377.163 436.648 389.989 427.755 400.756C416.484 414.501 405.722 428.655 395.487 443.188C306.097 571.511 264.941 728.521 249.069 882.353C151.097 760.58 150.041 595.467 222.534 461.728C310.351 299.711 465.341 171.861 641.163 117.647Z" fill="white"/>
+      <path d="M657.453 407.637C669.749 414.979 682.546 427.001 693.24 436.911C807.229 542.525 868.404 682.93 802.316 838.375C797.109 849.05 792.452 857.614 786.548 867.905C784.788 860.929 783.419 853.569 781.818 846.503C764.279 768.909 736.24 693.503 697.934 624.561C685.247 601.738 670.176 580.004 656.096 558.115C662.06 504.026 660.142 461.857 657.453 407.637Z" fill="white"/>
+      <path d="M638.654 592.363C645.524 597.611 655.097 617.288 659.633 625.906C702.093 706.635 723.785 790.172 739.345 879.257C705.852 879.139 681.47 873.026 650.179 863.594C602.009 846.435 568.858 825.355 534.191 788.361C594.308 730.287 618.347 669.97 638.654 592.363Z" fill="white"/>
+    </svg>
+    <span class="eyebrow">AI for daily ops</span>
+    <h1 class="display">Anna<br>My daily ops layer</h1>
+    <p class="hero-body">Catches tasks from email, calendar, WhatsApp, school apps. Turns rambly voice notes into tasks and calendar events. Sends a daily brief. You text her like a friend.</p>
     <div class="slide-number">2 / 17</div>
   </div>
 
@@ -1362,7 +1399,7 @@
     const bar = document.getElementById('progress');
     if (bar) bar.style.width = (n / totalSlides * 100) + '%';
     // Toggle nav styling when active slide is a transition (sage) slide
-    if (target.classList.contains('transition-slide')) {
+    if (target.classList.contains('transition-slide') || target.classList.contains('anna-hero-slide')) {
       document.body.classList.add('on-transition');
     } else {
       document.body.classList.remove('on-transition');
