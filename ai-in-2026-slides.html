@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI in 2026: What's Real, What's Next</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* Anna design tokens (sage/cream/coral) */
+  :root {
+    --sage-50:  #F2F6F4;
+    --sage-100: #E5EBE8;
+    --sage-200: #d5e0da;
+    --sage-300: #A8C5B8;
+    --sage-400: #92b3a3;
+    --sage-500: #7C9A8E;
+    --sage-600: #6a8a7d;
+    --sage-700: #5A7A6E;
+    --sage-800: #435c52;
+    --sage-900: #2C3E36;
+
+    --cream-50:  #FFFFFF;
+    --cream-100: #FAF8F5;
+    --cream-200: #F5F3F0;
+    --cream-300: #ECEAE7;
+
+    --coral-400: #EC9F93;
+    --coral-500: #E8A598;
+    --coral-600: #D68E82;
+    --coral-700: #C97D70;
+    --peach:     #FDEEE8;
+
+    --text-primary:   #2D3436;
+    --text-secondary: #636E72;
+    --text-muted:     #8A9592;
+
+    /* Aliased accents, kept under old names so existing inline styles still read sanely */
+    --accent-blue:   var(--sage-700);
+    --accent-purple: var(--sage-800);
+    --accent-green:  var(--sage-600);
+    --accent-red:    var(--coral-600);
+    --accent-amber:  var(--coral-500);
+    --accent-pink:   var(--coral-400);
+
+    --card-shadow: 0 6px 24px -4px rgba(124, 154, 142, 0.12);
+    --card-shadow-lg: 0 10px 40px -4px rgba(124, 154, 142, 0.15);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--cream-100);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Slide container */
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8vh 10vw;
+    background: var(--cream-100);
+    background-image: radial-gradient(var(--sage-200) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: 0 0;
+    overflow: hidden;
+  }
+
+  /* soft gradient veil over the dot grid, so text rests on clean cream */
+  .slide::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, var(--cream-100) 0%, rgba(250,248,245,0.7) 25%, rgba(250,248,245,0.7) 75%, var(--cream-100) 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .slide > * { position: relative; z-index: 1; }
+  .slide > .bg-glow { z-index: 0; }
+
+  .slide.active {
+    display: flex;
+  }
+
+  /* Typography */
+  .slide-number {
+    position: absolute;
+    bottom: 2.2rem;
+    right: 2.6rem;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sage-500);
+    font-weight: 500;
+    z-index: 2;
+  }
+
+  h1 {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    color: var(--sage-900);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: clamp(2.2rem, 4.2vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--sage-900);
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--sage-900);
+    margin-bottom: 14px;
+  }
+
+  .subtitle {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    color: var(--sage-700);
+    font-weight: 500;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+
+  p, li {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+  }
+
+  .big-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  strong {
+    color: var(--sage-900);
+    font-weight: 600;
+  }
+
+  /* "Gradient text" is now coral emphasis, no actual gradients in the Anna system */
+  .gradient-text,
+  .gradient-text-2,
+  .gradient-text-3 {
+    color: var(--coral-600);
+    font-style: italic;
+    font-weight: 600;
+  }
+  .gradient-text-2 { color: var(--coral-700); }
+  .gradient-text-3 { color: var(--sage-700); font-style: normal; }
+
+  /* Cards */
+  .card-grid {
+    display: grid;
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .card-grid-2 { grid-template-columns: 1fr 1fr; }
+  .card-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card-grid-4 { grid-template-columns: 1fr 1fr; }
+
+  .card {
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+    border: 1px solid var(--sage-100);
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+  }
+
+  .card:hover {
+    box-shadow: var(--card-shadow-lg);
+  }
+
+  .card h3 {
+    font-size: 21px;
+    margin-bottom: 12px;
+    color: var(--sage-900);
+  }
+
+  .card p, .card li {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+  }
+
+  .card strong {
+    color: var(--sage-900);
+  }
+
+  .card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .card ul li {
+    padding: 5px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .card ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 13px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--sage-400);
+  }
+
+  /* Accent card variants, now sage-dominant with coral for emphasis */
+  .card.green-border { border-left: 3px solid var(--sage-500); }
+  .card.red-border   { border-left: 3px solid var(--coral-600); }
+  .card.amber-border { border-left: 3px solid var(--coral-500); }
+  .card.blue-border  { border-left: 3px solid var(--sage-700); }
+  .card.purple-border{ border-left: 3px solid var(--sage-800); }
+
+  .card.green-border ul li::before { background: var(--sage-500); }
+  .card.red-border   ul li::before { background: var(--coral-600); }
+  .card.amber-border ul li::before { background: var(--coral-500); }
+  .card.blue-border  ul li::before { background: var(--sage-700); }
+  .card.purple-border ul li::before{ background: var(--sage-800); }
+
+  /* Hero card (for flagship category, eg Legal in vertical AI) */
+  .card.hero-card {
+    background: linear-gradient(160deg, #fff 0%, var(--peach) 100%);
+    border: 1px solid var(--coral-400);
+    border-left: 4px solid var(--coral-600);
+    box-shadow: var(--card-shadow-lg);
+    position: relative;
+  }
+  .card.hero-card::before {
+    content: 'HEADLINE CATEGORY';
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--coral-700);
+    background: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--coral-400);
+  }
+  .card.hero-card h3 {
+    font-size: 24px;
+    color: var(--coral-700);
+  }
+
+  /* Toolkit group accent colors, wider palette for variety */
+  .toolkit-group.tk-sage-500  { border-left: 3px solid var(--sage-500); }
+  .toolkit-group.tk-sage-500  h3 { color: var(--sage-600); }
+  .toolkit-group.tk-sage-700  { border-left: 3px solid var(--sage-700); }
+  .toolkit-group.tk-sage-700  h3 { color: var(--sage-700); }
+  .toolkit-group.tk-sage-800  { border-left: 3px solid var(--sage-800); }
+  .toolkit-group.tk-sage-800  h3 { color: var(--sage-800); }
+  .toolkit-group.tk-coral     { border-left: 3px solid var(--coral-500); }
+  .toolkit-group.tk-coral     h3 { color: var(--coral-600); }
+  .toolkit-group.tk-coral-dark{ border-left: 3px solid var(--coral-700); }
+  .toolkit-group.tk-coral-dark h3 { color: var(--coral-700); }
+  .toolkit-group.tk-peach     { border-left: 3px solid var(--coral-400); background: linear-gradient(180deg, #fff 0%, var(--peach) 180%); }
+  .toolkit-group.tk-peach     h3 { color: var(--coral-700); }
+
+  /* Stats */
+  .stat {
+    text-align: center;
+    padding: 20px;
+  }
+
+  .stat-number {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 56px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: var(--sage-800);
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+    margin-top: 16px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--sage-200);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+    padding-left: 20px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -36px;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--sage-500);
+    border: 2px solid var(--cream-100);
+    box-shadow: 0 0 0 3px var(--sage-100);
+  }
+
+  .timeline-item:nth-child(odd)::before { background: var(--sage-500); }
+  .timeline-item:nth-child(even)::before { background: var(--coral-500); box-shadow: 0 0 0 3px var(--peach); }
+
+  /* "Now" marker for current timeline item */
+  .timeline-item.is-now::before {
+    background: var(--coral-600);
+    width: 18px;
+    height: 18px;
+    left: -39px;
+    top: 4px;
+    box-shadow: 0 0 0 5px var(--peach), 0 0 0 7px var(--coral-400);
+    animation: nowPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes nowPulse {
+    0%, 100% { box-shadow: 0 0 0 5px var(--peach), 0 0 0 7px var(--coral-400); }
+    50%      { box-shadow: 0 0 0 7px var(--peach), 0 0 0 10px var(--coral-300, #f2c1b6); }
+  }
+
+  .now-badge {
+    display: inline-block;
+    background: var(--coral-600);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 10px;
+    vertical-align: middle;
+    text-transform: uppercase;
+  }
+
+  .timeline-date {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--sage-600);
+    margin-bottom: 4px;
+  }
+
+  .timeline-item:nth-child(even) .timeline-date { color: var(--coral-600); }
+
+  .timeline-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  .timeline-text strong { color: var(--sage-900); }
+
+  /* Big stat callout */
+  .big-stat {
+    text-align: center;
+    margin: 24px 0;
+  }
+
+  .big-stat-number {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 80px;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: var(--sage-800);
+  }
+
+  .big-stat-label {
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+  }
+
+  /* Toolkit groups */
+  .toolkit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .toolkit-group {
+    background: white;
+    border-radius: 14px;
+    padding: 22px 24px;
+    border: 1px solid var(--sage-100);
+    box-shadow: var(--card-shadow);
+  }
+
+  .toolkit-group h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 12px;
+    font-weight: 700;
+    color: var(--sage-600);
+  }
+
+  .toolkit-group ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .toolkit-group ul li {
+    font-size: 15px;
+    padding: 3px 0;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .toolkit-group ul li strong {
+    color: var(--sage-900);
+  }
+
+  /* Graveyard */
+  .graveyard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .graveyard-item {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid var(--sage-100);
+    box-shadow: var(--card-shadow);
+    text-align: center;
+  }
+
+  .graveyard-item .name {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-decoration: line-through;
+    color: var(--text-muted);
+  }
+
+  .graveyard-item .detail {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* Section header / eyebrow */
+  .section-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--sage-600);
+    font-weight: 600;
+    margin-bottom: 18px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 14px;
+  }
+
+  .section-label::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 48px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--coral-500);
+  }
+
+  /* Demo slide */
+  .demo-card {
+    background: white;
+    border-radius: 22px;
+    padding: 44px 48px;
+    border: 1px solid var(--sage-100);
+    box-shadow: var(--card-shadow-lg);
+    max-width: 820px;
+    margin-top: 20px;
+  }
+
+  .demo-card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .demo-card ul li {
+    font-size: 20px;
+    padding: 10px 0;
+    padding-left: 26px;
+    position: relative;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .demo-card ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--coral-500);
+  }
+
+  .demo-card code {
+    font-family: 'SF Mono', ui-monospace, Menlo, monospace;
+    font-size: 0.9em;
+    background: var(--cream-200);
+    border: 1px solid var(--sage-100);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--sage-800);
+  }
+
+  .takeaway {
+    margin-top: 22px;
+    padding: 16px 22px;
+    background: var(--peach);
+    border-left: 3px solid var(--coral-500);
+    border-radius: 0 10px 10px 0;
+    font-size: 16px;
+    color: var(--sage-800);
+    line-height: 1.55;
+    max-width: 820px;
+  }
+
+  .takeaway strong {
+    color: var(--coral-700);
+  }
+
+  /* Closing slide bullets */
+  .closing-list {
+    list-style: none;
+    padding: 0;
+    max-width: 720px;
+  }
+
+  .closing-list li {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    padding: 12px 0;
+    padding-left: 30px;
+    position: relative;
+    color: var(--sage-800);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  .closing-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 22px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--coral-500);
+  }
+
+  /* Background decorations, sage mist instead of neon glow */
+  .bg-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(130px);
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .bg-glow-1 {
+    width: 520px; height: 520px;
+    background: var(--sage-200);
+    top: -220px; right: -120px;
+  }
+
+  .bg-glow-2 {
+    width: 420px; height: 420px;
+    background: var(--peach);
+    bottom: -160px; left: -120px;
+  }
+
+  .bg-glow-3 {
+    width: 320px; height: 320px;
+    background: var(--sage-300);
+    top: 50%; right: -70px;
+    opacity: 0.28;
+  }
+
+  /* Navigation */
+  .nav {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(14px);
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--sage-100);
+    box-shadow: var(--card-shadow);
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+
+  /* When a transition (sage) slide is active, give the nav a dark container so white-on-sage stays legible */
+  body.on-transition .nav {
+    background: rgba(44, 62, 54, 0.85);
+    border-color: var(--sage-800);
+    box-shadow: 0 6px 24px -4px rgba(0,0,0,0.3);
+  }
+  body.on-transition .nav button {
+    background: var(--sage-800);
+    border-color: var(--sage-700);
+    color: white;
+  }
+  body.on-transition .nav button:hover {
+    background: var(--coral-500);
+    border-color: var(--coral-500);
+    color: white;
+  }
+  body.on-transition .nav .counter {
+    color: rgba(255,255,255,0.82);
+  }
+
+  .nav button {
+    background: var(--cream-100);
+    border: 1px solid var(--sage-100);
+    color: var(--sage-800);
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', inherit;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+
+  .nav button:hover {
+    background: var(--sage-500);
+    color: white;
+    border-color: var(--sage-500);
+  }
+
+  .nav .counter {
+    color: var(--sage-600);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  /* Transition slide */
+  .transition-slide {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: var(--sage-500);
+    background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .transition-slide::after {
+    background: linear-gradient(180deg, rgba(124,154,142,0) 0%, rgba(90,122,110,0.25) 100%);
+  }
+
+  .transition-slide h2,
+  .transition-slide h1 { color: white; }
+  .transition-slide .subtitle { color: rgba(255,255,255,0.82); }
+  .transition-slide .section-label { color: rgba(255,255,255,0.75); }
+  .transition-slide .section-label::after { background: var(--peach); }
+  .transition-slide .gradient-text,
+  .transition-slide .gradient-text-2,
+  .transition-slide .gradient-text-3 { color: var(--peach); font-style: italic; }
+  .transition-slide .slide-number { color: rgba(255,255,255,0.6); }
+
+  .transition-slide h2 {
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    margin-bottom: 16px;
+  }
+
+  /* Responsive for projector */
+  @media (min-width: 1920px) {
+    h1 { font-size: 5.8rem; }
+    h2 { font-size: 4rem; }
+    .big-stat-number { font-size: 96px; }
+    p, li { font-size: 20px; }
+  }
+
+  /* Two column layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 22px;
+  }
+
+  /* Horizontal stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .stat-card {
+    background: white;
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+    border: 1px solid var(--sage-100);
+    box-shadow: var(--card-shadow);
+  }
+
+  .stat-card .stat-number {
+    font-size: 38px;
+    color: var(--sage-800);
+  }
+
+  .stat-card .stat-label {
+    font-size: 13px;
+    margin-top: 4px;
+    color: var(--text-secondary);
+  }
+
+  /* Animate on entry */
+  .slide.active {
+    animation: annaFade 0.5s cubic-bezier(0.2, 0, 0.2, 1);
+  }
+
+  @keyframes annaFade {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Three section layout for graveyard */
+  .three-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .section-block {
+    background: white;
+    border-radius: 14px;
+    padding: 24px;
+    border: 1px solid var(--sage-100);
+    box-shadow: var(--card-shadow);
+  }
+
+  .section-block h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+
+  .section-block ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .section-block ul li {
+    font-size: 14px;
+    padding: 5px 0;
+    line-height: 1.45;
+    color: var(--text-secondary);
+  }
+
+  .section-block ul li strong {
+    color: var(--sage-900);
+    font-weight: 600;
+  }
+
+  /* Progress bar, coral accent at top of the deck */
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--coral-500);
+    width: 0;
+    z-index: 101;
+    transition: width 0.3s ease;
+  }
+
+  /* Text helpers inside cards for inline accent colors set via style="color: var(--accent-*)" */
+  [style*="var(--accent-green)"]  { color: var(--sage-600) !important; }
+  [style*="var(--accent-red)"]    { color: var(--coral-600) !important; }
+  [style*="var(--accent-amber)"]  { color: var(--coral-500) !important; }
+  [style*="var(--accent-blue)"]   { color: var(--sage-700) !important; }
+  [style*="var(--accent-purple)"] { color: var(--sage-800) !important; }
+  [style*="var(--accent-pink)"]   { color: var(--coral-400) !important; }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="deck">
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide active" id="slide-1">
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="section-label">April 2026</div>
+    <h1>AI in 2026:<br><span class="gradient-text">What's Real, What's Next</span></h1>
+    <p class="subtitle" style="font-size: 28px; margin-top: 16px;">A practical guide for the rest of us</p>
+    <div class="slide-number">1 / 19</div>
+  </div>
+
+  <!-- SLIDE 2: Timeline -->
+  <div class="slide" id="slide-2">
+    <div class="bg-glow bg-glow-3"></div>
+    <h2>12 months of <span class="gradient-text-2">whiplash</span></h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">January 2025</div>
+        <div class="timeline-text"><strong>DeepSeek R1 drops.</strong> A Chinese lab claims frontier-level AI for $5.6M. Nvidia loses $589B in market value in a single day. Marc Andreessen calls it AI's "Sputnik moment."</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">May 2025</div>
+        <div class="timeline-text"><strong>Claude 4, GPT-4.1, and Claude Code launch.</strong> AI coding tools go from autocomplete to full development agents. Claude Code hits $1B in annualized run-rate revenue within 6 months.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">August 2025</div>
+        <div class="timeline-text"><strong>GPT-5 launches.</strong> Google's Deep Think achieves gold-medal standard at the International Mathematics Olympiad. Gemini 3 follows in November.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">January 2026</div>
+        <div class="timeline-text"><strong>OpenClaw goes viral.</strong> Open-source AI agent hits 250K+ GitHub stars. Jensen Huang calls it "the most important software release probably ever."</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">February 2026</div>
+        <div class="timeline-text"><strong>Claude Opus 4.6 ships with Agent Teams.</strong> 16 AI agents write a 100,000-line C compiler in two weeks. Anthropic raises $30B at a $380B valuation. Q1 venture funding hits $297B globally, 80% of it AI. Four rounds beat all of 2024 venture combined.</div>
+      </div>
+      <div class="timeline-item is-now">
+        <div class="timeline-date">April 2026 <span class="now-badge">Now</span></div>
+        <div class="timeline-text"><strong>Anthropic ships Claude Opus 4.7</strong> and quietly confirms Mythos, an unreleased model so good at finding security flaws they will not let the public touch it. Mythos found thousands of zero-days, including a 27-year-old bug in OpenBSD. Access is gated to about 50 companies under Project Glasswing.</div>
+      </div>
+    </div>
+    <div class="slide-number">2 / 19</div>
+  </div>
+
+  <!-- SLIDE 3: Agents -->
+  <div class="slide" id="slide-3">
+    <div class="bg-glow bg-glow-2"></div>
+    <h2>AI agents: the hype <span class="gradient-text-2">meets reality</span></h2>
+    <p class="subtitle" style="font-size: 20px; margin-bottom: 20px;">Agents are real. Agents are also overhyped. Both are true.</p>
+    <div class="two-col">
+      <div class="card green-border">
+        <h3 style="color: var(--accent-green);">What's working</h3>
+        <ul>
+          <li><strong>57% of organizations</strong> now have AI agents in production (up from 51% a year ago)</li>
+          <li><strong>OpenClaw:</strong> open-source agent that handles email, browses, schedules, learns you. 250K+ stars. Nvidia shipped an enterprise build.</li>
+          <li><strong>Claude Agent Teams:</strong> 16 AI instances coordinated to build a 100,000-line C compiler. 99% test pass rate. Two weeks.</li>
+          <li><strong>Meta</strong> shipped Muse Spark, its first major in-house LLM after the $14B Scale AI deal, to catch up to Google and OpenAI.</li>
+        </ul>
+      </div>
+      <div class="card red-border">
+        <h3 style="color: var(--accent-red);">What's not</h3>
+        <ul>
+          <li><strong>Gartner predicts 40%+</strong> of agentic AI projects will be scrapped by 2027. Quality is the #1 barrier.</li>
+          <li><strong>OpenClaw's security mess:</strong> 138 tracked CVEs in two months, a one-click RCE patched under embargo, 824 malicious skills on ClawHub. China banned it from government devices.</li>
+          <li><strong>Most enterprise "agent" products</strong> still fail on real-world edge cases. The gap between demo and production stays wide.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-number">3 / 19</div>
+  </div>
+
+  <!-- SLIDE 4: Mythos / Glasswing -->
+  <div class="slide" id="slide-4">
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+    <div class="section-label">April 2026</div>
+    <h2>Anthropic built a model called Mythos. <span class="gradient-text-2">Then didn't release it.</span></h2>
+    <div class="card-grid card-grid-2" style="margin-top: 16px;">
+      <div class="card purple-border">
+        <h3 style="color: var(--accent-purple);">Why they held it back</h3>
+        <p>In a few weeks of testing, Mythos found <strong>thousands of zero-day vulnerabilities</strong> across every major OS and browser. One bug was <strong>27 years old in OpenBSD</strong>. The model chains exploits together and hacks complex software end to end.</p>
+      </div>
+      <div class="card blue-border">
+        <h3 style="color: var(--accent-blue);">Project Glasswing</h3>
+        <p>Instead of shipping, Anthropic handed Mythos to about <strong>50 companies</strong> (AWS, Apple, Google, JPMorgan, CrowdStrike). $100M+ in usage credits. One job: patch the internet before attackers catch up.</p>
+      </div>
+      <div class="card amber-border">
+        <h3 style="color: var(--accent-amber);">The capability gap opened</h3>
+        <p>First time a major lab has said: we built it, we're not letting you use it. Frontier capability is now sitting behind a gate.</p>
+      </div>
+      <div class="card red-border">
+        <h3 style="color: var(--accent-red);">Security is already ahead</h3>
+        <p><strong>97% of enterprise leaders</strong> now expect a material AI-agent-driven security incident within 12 months. Only <strong>6%</strong> of security budgets are allocated to it.</p>
+      </div>
+    </div>
+    <div class="slide-number">4 / 19</div>
+  </div>
+
+  <!-- SLIDE 5: Coding Revolution -->
+  <div class="slide" id="slide-5">
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="section-label">The shift</div>
+    <h2>The coding <span class="gradient-text-3">revolution</span></h2>
+    <p class="big-text" style="margin-bottom: 20px;">This is the biggest practical shift happening right now.</p>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-number gradient-text">$2.5B</div>
+        <div class="stat-label">Claude Code run-rate<br>in 9 months</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number gradient-text-2">300K+</div>
+        <div class="stat-label">business customers<br>on Claude Code</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number gradient-text-3">73%</div>
+        <div class="stat-label">of engineering teams<br>use AI daily (up from 41%)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color: var(--accent-amber);">7</div>
+        <div class="stat-label">serious AI coding<br>tools competing</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top: 16px; border-left: 3px solid var(--accent-blue);">
+      <p style="font-size: 19px;"><strong style="color: var(--accent-blue);">Why this matters even if you're not a developer:</strong> Tools like Bolt, Lovable, and v0 turn plain English into a working app. The bottleneck between "I have an idea" and "I have a prototype" collapsed. Developers now spend more time reviewing AI code (11.4 hrs/week) than writing new code (9.8 hrs/week). The bottleneck moved.</p>
+    </div>
+    <div class="slide-number">5 / 19</div>
+  </div>
+
+  <!-- SLIDE 6: Where AI delivers value -->
+  <div class="slide" id="slide-6">
+    <div class="bg-glow bg-glow-2"></div>
+    <h2>Where AI is <span class="gradient-text">actually delivering value</span></h2>
+    <div class="card-grid card-grid-2" style="margin-top: 16px;">
+      <div class="card blue-border">
+        <h3>Research & analysis</h3>
+        <p>Deep research tools pull <strong>100+ sources in minutes</strong>. Perplexity, Gemini Deep Research, ChatGPT Deep Research. Competitive analysis, due diligence, market scans. The gathering phase that took days now takes minutes.</p>
+      </div>
+      <div class="card green-border">
+        <h3>Customer support</h3>
+        <p><strong>60-80% automation rates</strong> are standard, not exceptional. AI handles nuance and policy exceptions, not just FAQs. Probably the most mature enterprise AI use case.</p>
+      </div>
+      <div class="card purple-border">
+        <h3>Content & communication</h3>
+        <p>First drafts, emails, proposals, decks. Not replacing writers. Killing the blank page. Only <strong>25.6% of marketers</strong> say AI content outperforms human. The skill is editing.</p>
+      </div>
+      <div class="card amber-border">
+        <h3>Workflow automation</h3>
+        <p>AI steps inside Make, n8n, and Zapier kill <strong>hours of repetitive work</strong> per week. The cost drop means this works for everyday tasks now, not just enterprise.</p>
+      </div>
+    </div>
+    <div class="slide-number">6 / 19</div>
+  </div>
+
+  <!-- SLIDE 7: Vertical AI -->
+  <div class="slide" id="slide-7">
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="section-label">The Real Winners</div>
+    <h2>Vertical AI is <span class="gradient-text-3">quietly dominating</span></h2>
+    <p class="big-text" style="margin-bottom: 16px;">Generic AI wrappers are dying. Industry-specific AI is scaling. They win by owning the workflow, the data, and the compliance.</p>
+    <div class="card-grid card-grid-2">
+      <div class="card hero-card">
+        <h3>Legal</h3>
+        <ul>
+          <li><strong>Harvey</strong>: AI for law firms. $11B valuation, $190M ARR, 1,000+ customers across 60 countries.</li>
+          <li><strong>Legora</strong>: Harvey's challenger. $5.55B valuation, 800 firms. Built on Claude.</li>
+          <li><strong>EvenUp</strong>: AI for personal injury law. $2B+ valuation. Processes 10,000 cases/week.</li>
+          <li><strong>CoCounsel</strong>: Thomson Reuters' AI assistant. 1 million users across 107 countries.</li>
+        </ul>
+      </div>
+      <div class="card blue-border">
+        <h3 style="color: var(--accent-blue);">Healthcare</h3>
+        <ul>
+          <li><strong>OpenEvidence</strong> -- Clinical decision tool. $12B valuation. 45% of US physicians use it daily.</li>
+          <li><strong>Abridge</strong> -- AI clinical notes from doctor-patient conversations. $5.3B valuation. Used by Kaiser, Mayo Clinic, Johns Hopkins.</li>
+          <li><strong>Hippocratic AI</strong> -- Patient-facing AI agents. $3.5B valuation. 180M+ patient interactions, zero safety issues.</li>
+        </ul>
+      </div>
+      <div class="card purple-border">
+        <h3 style="color: var(--accent-purple);">Finance</h3>
+        <ul>
+          <li><strong>Ramp</strong> -- Spend management and finance ops. $32B valuation, $1B ARR, 50,000 customers.</li>
+          <li><strong>Hebbia</strong> -- AI analyst for document analysis. $700M valuation. Used by top banks, PE firms, and government agencies.</li>
+          <li><strong>Pigment</strong> -- AI-native FP&A replacing Excel/Oracle. $1B+ valuation. Customers: Uber, Unilever, Siemens.</li>
+          <li><strong>Basis</strong> -- AI for accounting. $1.15B valuation. Used by 30% of top 25 US firms.</li>
+        </ul>
+      </div>
+      <div class="card amber-border">
+        <h3 style="color: var(--accent-amber);">Real Estate</h3>
+        <ul>
+          <li><strong>EliseAI</strong> -- AI for property management. $2.2B valuation. Manages comms for ~1 in 12 US rental units.</li>
+          <li><strong>PropTech AI funding:</strong> $1.7B in January 2026 alone (176% increase YoY).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-number">7 / 19</div>
+  </div>
+
+  <!-- SLIDE 8: Graveyard and BS -->
+  <div class="slide" id="slide-8">
+    <div class="bg-glow bg-glow-3"></div>
+    <h2>What failed, what's failing, <span class="gradient-text-2">and what's fake</span></h2>
+    <div class="three-section">
+      <div class="section-block" style="border-top: 3px solid var(--text-muted);">
+        <h3 style="color: var(--text-muted);">The graveyard</h3>
+        <ul>
+          <li><strong>Humane AI Pin</strong><br>Discontinued. Sold to HP. Devices remotely bricked.</li>
+          <li><strong>Tome AI</strong><br>Shut down. All user presentations deleted.</li>
+          <li><strong>Phind</strong><br>AI dev search engine. Shut down Jan 2026.</li>
+          <li><strong>Builder.ai</strong><br>Microsoft-backed, $1.2B valuation. Bankrupt.</li>
+        </ul>
+      </div>
+      <div class="section-block" style="border-top: 3px solid var(--accent-amber);">
+        <h3 style="color: var(--accent-amber);">The disappointments</h3>
+        <ul>
+          <li><strong>Enterprise AI platforms:</strong> Copilot for 365, Agentforce, Slack AI. Expensive, underwhelming.</li>
+          <li><strong>95% of gen AI pilots</strong> never move past the experimental phase (MIT).</li>
+          <li>Only <strong>6%</strong> see significant financial returns despite <strong>88%</strong> using AI (McKinsey).</li>
+        </ul>
+      </div>
+      <div class="section-block" style="border-top: 3px solid var(--accent-red);">
+        <h3 style="color: var(--accent-red);">The AI washing</h3>
+        <ul>
+          <li><strong>50,000+ layoffs</strong> cited AI, but AI cuts were only 4.5% of total layoffs.</li>
+          <li>Sam Altman admitted: <strong>"AI washing is real."</strong></li>
+          <li><strong>DOJ, SEC, and FTC</strong> now actively pursuing misleading AI claims.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-number">8 / 19</div>
+  </div>
+
+  <!-- SLIDE 9: Toolkit -->
+  <div class="slide" id="slide-9">
+    <div class="bg-glow bg-glow-1"></div>
+    <h2>Your 2026 <span class="gradient-text">AI toolkit</span></h2>
+    <p class="subtitle" style="font-size: 18px; margin-bottom: 12px; color: var(--text-muted);">Claude runs writing, research, reasoning. The one category still up for grabs: app builders.</p>
+    <div class="toolkit-grid">
+      <div class="toolkit-group tk-sage-700">
+        <h3>Daily Drivers</h3>
+        <ul>
+          <li><strong>Claude</strong>: writing, reasoning, analysis. The default.</li>
+          <li><strong>Claude Design</strong>: prompt to slides, prototypes, one-pagers</li>
+          <li><strong>NotebookLM</strong>: interactive document knowledge</li>
+          <li style="color: var(--text-muted); font-size: 14px;"><em>ChatGPT is the also-ran now. People keep it out of habit.</em></li>
+        </ul>
+      </div>
+      <div class="toolkit-group tk-sage-800">
+        <h3>Deep Research</h3>
+        <ul>
+          <li><strong>Claude Research</strong>: best depth, cites everything</li>
+          <li><strong>Gemini Deep Research</strong>: browses 100+ pages, good for volume</li>
+          <li style="color: var(--text-muted); font-size: 14px;"><em>Perplexity got lapped. Claude does what Perplexity did, better.</em></li>
+        </ul>
+      </div>
+      <div class="toolkit-group tk-sage-500">
+        <h3>Building & Coding <span style="color: var(--accent-amber); font-size: 12px; font-weight: 600; letter-spacing: 1px;">&middot; REAL FIGHT</span></h3>
+        <ul>
+          <li><strong>Claude Code</strong>: terminal, deepest reasoning</li>
+          <li><strong>Cursor</strong>: best all-around AI IDE</li>
+          <li><strong>Lovable / v0 / Bolt</strong>: apps from plain English. Genuine competition for Claude Code on prototypes.</li>
+        </ul>
+      </div>
+      <div class="toolkit-group tk-coral">
+        <h3>Productivity</h3>
+        <ul>
+          <li><strong>Granola</strong>: local meeting notes, no bot</li>
+          <li><strong>Wispr Flow</strong>: voice-to-text (175+ WPM)</li>
+        </ul>
+      </div>
+      <div class="toolkit-group tk-peach">
+        <h3>Automation</h3>
+        <ul>
+          <li><strong>Make</strong>: visual workflow builder</li>
+          <li><strong>n8n</strong>: open-source, most flexible</li>
+          <li><strong>Zapier</strong>: simplest, 8,000+ integrations</li>
+        </ul>
+      </div>
+      <div class="toolkit-group tk-coral-dark">
+        <h3>Creative</h3>
+        <ul>
+          <li><strong>Gemini / Veo</strong>: Google, images and video</li>
+          <li><strong>Seedance / Seedream</strong>: ByteDance, video and images</li>
+          <li><strong>Higgsfield</strong>: cinematic AI video</li>
+          <li><strong>ElevenLabs</strong>: voice and music</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-number">9 / 19</div>
+  </div>
+
+  <!-- SLIDE 10: Long-running agents / OpenClaw -->
+  <div class="slide" id="slide-10">
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+    <div class="section-label">The new shape of work</div>
+    <h2>Long-running agents arrived.<br><span class="gradient-text">Then OpenClaw reminded everyone what that costs.</span></h2>
+    <div class="card-grid card-grid-3" style="margin-top: 20px;">
+      <div class="card green-border">
+        <h3 style="color: var(--accent-green);">Minutes to hours</h3>
+        <p>Claude runs for hours without you. One task behind this deck: 100 helper agents, 32 hours, done by morning.</p>
+      </div>
+      <div class="card red-border">
+        <h3 style="color: var(--accent-red);">Hundreds of bad actors showed up</h3>
+        <p>Bad actors hit the skill store with malicious add-ons. Install one, it can reach your email, files, accounts.</p>
+      </div>
+      <div class="card purple-border">
+        <h3 style="color: var(--accent-purple);">How to not get burned</h3>
+        <p>Start small. Treat it like a new hire. Check the output, don't trust the summary. Install only what you trust.</p>
+      </div>
+    </div>
+    <div class="slide-number">10 / 19</div>
+  </div>
+
+  <!-- SLIDE 11: Setup (CLAUDE.md, skills, context, MCP) -->
+  <div class="slide" id="slide-11">
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="section-label">Before the demos</div>
+    <h2>It's a chatbot until you <span class="gradient-text-2">set it up.</span></h2>
+    <p class="subtitle" style="font-size: 20px; margin-bottom: 18px;">Generic Claude is smart. Claude that knows your stuff is useful.</p>
+    <div class="card-grid card-grid-4">
+      <div class="card green-border">
+        <h3 style="color: var(--accent-green);">CLAUDE.md</h3>
+        <p>A rules file per project. Your voice, your conventions, the stuff you don't want to explain twice. Claude reads it every session.</p>
+      </div>
+      <div class="card amber-border">
+        <h3 style="color: var(--accent-amber);">Skills</h3>
+        <p>Prompts you keep retyping become slash commands. Save them once, run them forever.</p>
+      </div>
+      <div class="card purple-border">
+        <h3 style="color: var(--accent-purple);">Point it at your stuff</h3>
+        <p>A repo, a folder, a local file. Generic answers lose to specific context every time.</p>
+      </div>
+      <div class="card red-border">
+        <h3 style="color: var(--accent-red);">MCP integrations</h3>
+        <p>Gmail, Slack, Linear, Calendar, browser. Claude acts on your real tools, not just text.</p>
+      </div>
+    </div>
+    <div class="slide-number">11 / 19</div>
+  </div>
+
+  <!-- SLIDE 12: Transition -->
+  <div class="slide transition-slide" id="slide-12">
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="section-label">Section 2</div>
+    <h2>Let me show you what this<br>looks like <span class="gradient-text">in practice</span></h2>
+    <p class="subtitle" style="font-size: 24px;">Live demos</p>
+    <div class="slide-number">12 / 19</div>
+  </div>
+
+  <!-- SLIDE 13: Demo 1 -->
+  <div class="slide" id="slide-13">
+    <div class="bg-glow bg-glow-3"></div>
+    <div class="section-label">Demo 1</div>
+    <h2>AI as your <span class="gradient-text">thinking partner</span></h2>
+    <div class="demo-card">
+      <ul>
+        <li>Bad prompt vs. good prompt: same question, dramatically different results</li>
+        <li>Iterate: push back, refine, ask "what am I missing?"</li>
+        <li>AI as devil's advocate, strategist, editor</li>
+      </ul>
+    </div>
+    <div class="takeaway">
+      <strong>Key takeaway:</strong> This is the #1 skill. Learning to have a productive conversation with AI.
+    </div>
+    <div class="slide-number">13 / 19</div>
+  </div>
+
+  <!-- SLIDE 14: Demo 2 -->
+  <div class="slide" id="slide-14">
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="section-label">Demo 2</div>
+    <h2>Research that <span class="gradient-text-2">used to take days</span></h2>
+    <div class="demo-card">
+      <ul>
+        <li>AI-powered research with 100+ real sources in minutes</li>
+        <li>Citations you can click through and verify</li>
+        <li>Your judgment still matters; AI compresses the gathering phase</li>
+      </ul>
+    </div>
+    <div class="takeaway">
+      <strong>Key takeaway:</strong> The gathering phase goes from hours to minutes. Your job becomes evaluation and synthesis.
+    </div>
+    <div class="slide-number">14 / 19</div>
+  </div>
+
+  <!-- SLIDE 15: Demo 3 -->
+  <div class="slide" id="slide-15">
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="section-label">Demo 3</div>
+    <h2>Talk, <span class="gradient-text-3">don't type</span></h2>
+    <div class="demo-card">
+      <ul>
+        <li>Voice-first AI workflows: 175+ words per minute</li>
+        <li>Dictate complex emails and documents naturally</li>
+        <li>Meeting notes that capture decisions, not just words</li>
+      </ul>
+    </div>
+    <div class="takeaway">
+      <strong>Key takeaway:</strong> Voice is the most underrated AI interface. You can "write" 5x faster by talking.
+    </div>
+    <div class="slide-number">15 / 19</div>
+  </div>
+
+  <!-- SLIDE 16: Claude Code Demo - Creator pipeline -->
+  <div class="slide" id="slide-16">
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="section-label">Demo: creator pipeline</div>
+    <h2>A full GTM workstream, <span class="gradient-text">run by Claude Code.</span></h2>
+    <p class="subtitle" style="font-size: 20px; margin-bottom: 18px;"><em><span class="gradient-text-2">Research</span> the playbook. <span class="gradient-text-2">Draft</span> the contract. <span class="gradient-text-2">Run</span> the campaign. <span class="gradient-text-2">Attribute</span> the signups.</em></p>
+    <div class="demo-card">
+      <ul>
+        <li>Research Cal.ai's micro-influencer playbook. Recommend Social Cat as the platform.</li>
+        <li>Adapt a lawyer's template into Chelsea Stellick's $1,750 contract.</li>
+        <li>Scrape the Social Cat inbox, download creator videos, republish to TikTok.</li>
+        <li>UTM-tag every post. Attribute signups per creator via GA4.</li>
+      </ul>
+    </div>
+    <div class="takeaway">
+      One GTM workstream. <strong>60 hours of Claude.</strong> No agency, no creator manager.
+    </div>
+    <div class="slide-number">16 / 19</div>
+  </div>
+
+  <!-- SLIDE 17: Claude Code Demo - Remotion product video -->
+  <div class="slide" id="slide-17">
+    <div class="bg-glow bg-glow-3"></div>
+    <div class="section-label">Demo: press play</div>
+    <h2>I shipped a product video <span class="gradient-text">by writing code.</span></h2>
+    <p class="subtitle" style="font-size: 20px; margin-bottom: 18px;">No Premiere. No After Effects. Remotion (React for video) and Claude Code.</p>
+    <div class="demo-card">
+      <ul>
+        <li>Wrote React components for each scene. Claude Code iterated on timing, copy, transitions.</li>
+        <li>The artifact: <code>/Users/dilanikahawala/my-video/out/anna-demo-final.mp4</code> (19MB).</li>
+        <li><code>HOW-THIS-WAS-BUILT.md</code> documents every prompt, in Claude Code's own words.</li>
+        <li>Live demo: press play. That's the whole demo.</li>
+      </ul>
+    </div>
+    <div class="takeaway">
+      This used to be a vendor or a video editor. Now it's a <strong>Tuesday night</strong>.
+    </div>
+    <div class="slide-number">17 / 19</div>
+  </div>
+
+  <!-- SLIDE 18: Claude Code Demo - Slide building (meta) -->
+  <div class="slide" id="slide-18">
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="section-label">Demo &middot; Claude Code (meta)</div>
+    <h2>This deck was <span class="gradient-text-2">edited tonight.</span></h2>
+    <div class="demo-card">
+      <ul>
+        <li>The deck you're looking at was edited tonight with Claude Code.</li>
+        <li>I was reviewing slides in the browser and telling Claude what to change.</li>
+        <li>Background agents fact-checked, restyled, mined transcripts in parallel while I kept reviewing.</li>
+        <li>Screenshot, prompt, edit, refresh. That's the whole loop.</li>
+      </ul>
+    </div>
+    <div class="takeaway">
+      <strong>What you'll see:</strong> I'll ask Claude Code to tweak a line on this very slide, live. Artifacts don't go stale anymore. You patch them.
+    </div>
+    <div class="slide-number">18 / 19</div>
+  </div>
+
+  <!-- SLIDE 19: Claude Code Demo - Twilio submission -->
+  <div class="slide" id="slide-19">
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="section-label">Demo &middot; Claude Code</div>
+    <h2>Twilio A2P: <span class="gradient-text-3">100 sub-agents, 32 hours, one approval</span></h2>
+    <div class="stats-row" style="margin-top: 10px; margin-bottom: 18px;">
+      <div class="stat-card">
+        <div class="stat-number gradient-text">100</div>
+        <div class="stat-label">sub-agents spawned<br>in a single session</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number gradient-text-2">9</div>
+        <div class="stat-label">agents running<br>in parallel at peak</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number gradient-text-3">32h</div>
+        <div class="stat-label">session span<br>(Feb 3-4, 2026)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color: var(--accent-amber);">4</div>
+        <div class="stat-label">rejections before<br>approval</div>
+      </div>
+    </div>
+    <div class="demo-card">
+      <ul>
+        <li>US SMS for Anna needed A2P 10DLC compliance. Terms, Privacy Policy, consent checkbox, verbatim opt-in language, 5 sample messages, screenshots.</li>
+        <li>Claude Code drafted every field, debugged each rejection (empty URL fields, summarized consent, missing opt-in message and keywords, CTA verification).</li>
+        <li>When the "Fix Campaign" form was missing fields, it walked me through deleting and recreating the campaign via the API.</li>
+        <li>Approved ~Feb 20, 2026. Campaign SID <code>CMb232b90c01d220980a32f3b5f18b4e0a</code>.</li>
+      </ul>
+    </div>
+    <div class="slide-number">19 / 19</div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button onclick="prevSlide()" id="prev-btn">&larr; Prev</button>
+  <span class="counter" id="counter">1 / 19</span>
+  <button onclick="nextSlide()" id="next-btn">Next &rarr;</button>
+</div>
+
+<script>
+  const totalSlides = 19;
+  let current = 1;
+
+  // Initialize progress bar on load
+  document.addEventListener('DOMContentLoaded', () => {
+    const bar = document.getElementById('progress');
+    if (bar) bar.style.width = (1 / totalSlides * 100) + '%';
+  });
+
+  function showSlide(n) {
+    document.querySelector('.slide.active').classList.remove('active');
+    const target = document.getElementById('slide-' + n);
+    target.classList.add('active');
+    document.getElementById('counter').textContent = n + ' / ' + totalSlides;
+    const bar = document.getElementById('progress');
+    if (bar) bar.style.width = (n / totalSlides * 100) + '%';
+    // Toggle nav styling when active slide is a transition (sage) slide
+    if (target.classList.contains('transition-slide')) {
+      document.body.classList.add('on-transition');
+    } else {
+      document.body.classList.remove('on-transition');
+    }
+    current = n;
+  }
+
+  function nextSlide() {
+    if (current < totalSlides) showSlide(current + 1);
+  }
+
+  function prevSlide() {
+    if (current > 1) showSlide(current - 1);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault();
+      nextSlide();
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      prevSlide();
+    }
+    if (e.key === 'Home') {
+      e.preventDefault();
+      showSlide(1);
+    }
+    if (e.key === 'End') {
+      e.preventDefault();
+      showSlide(totalSlides);
+    }
+  });
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) nextSlide();
+      else prevSlide();
+    }
+  });
+</script>
+
+</body>
+</html>
