@@ -65,26 +65,18 @@ Every UI generation ends with a short report: which tokens it used, which compon
 
 ### 4. The output report (styled example block)
 
-Show the following as a styled markdown / code block, like a sample Claude Code response:
+Under 150 words, all rules-applied bullets phrased conceptually (the way the brand book talks, not the token names), one-line `Read:` pointer. Show the following as a styled markdown / code block, like a sample Claude Code response:
 
 ```markdown
-### What I built and why
+### What I did
 
-Used from the design system:
-- Tokens: sage500 (CTA), cream100 (bg), coral500 (accent)
-- Components: <Button variant="primary">, <Card>, <TaskItem>
-- Reference: preview/comp-task-rows.html (matched the row layout)
-- Voice: sentence case throughout, "I'll send Dan a reminder" first-person
+- ✓ All values from tokens, no inline hex or px
+- ✓ Sage-tinted surface with sage accent shadow, generous card radius
+- ✓ Reused existing components: Button, Card, TaskItem
+- ✓ Sentence case throughout; first-person ("I'll send Dan..."); pipes between meta items
+- ⚠ Display type one step larger than canonical — layout needed extra weight; flag to revert.
 
-Rules applied (and one I bent):
-- Sage-tinted shadow on the card (rule: never neutral gray) ✓
-- Pipes between meta items, not dots ✓
-- Used Lora at 18px instead of canonical 16px because the layout
-  needed extra weight. Flag if you want me to revert.
-
-Read next to internalize:
-- preview/comp-task-rows.html — canonical task row treatment
-- references/recipes.md#new-mobile-screen — the pattern I followed
+Read: preview/comp-task-rows.html · references.md#new-mobile-screen
 ```
 
 ### 5. Hard rules cheatsheet (three columns or stacked groups)
