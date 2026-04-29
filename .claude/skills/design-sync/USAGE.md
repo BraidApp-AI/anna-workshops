@@ -24,24 +24,18 @@ The skill auto-invokes. You can also call it explicitly: `/design-sync`.
 
 ## What the report looks like
 
+Under 150 words, all rules-applied bullets phrased conceptually (the way the brand book talks, not the token names), one-line `Read:` pointer at the end:
+
 ```markdown
-### What I built and why
+### What I did
 
-Used from the design system:
-- Tokens: sage500 (CTA), cream100 (bg), coral500 (accent)
-- Components: <Button variant="primary">, <Card>, <TaskItem>
-- Reference: preview/comp-task-rows.html
-- Voice: sentence case throughout, "I'll send Dan..." first-person
+- ✓ All values from tokens, no inline hex or px
+- ✓ Sage-tinted surface with sage accent shadow, generous card radius
+- ✓ Reused existing components: Button, Card, TaskItem
+- ✓ Sentence case throughout; first-person ("I'll send Dan..."); pipes between meta items
+- ⚠ Display type one step larger than canonical — layout needed extra weight; flag to revert.
 
-Rules applied (and one I bent):
-- ✓ Sage-tinted shadow on the card
-- ✓ Pipes between meta items, not dots
-- ⚠ Used Lora at 18px instead of canonical 16px because the layout
-  needed extra weight; flag to revert.
-
-Read next to internalize:
-- preview/comp-task-rows.html
-- references/recipes.md#new-mobile-screen
+Read: preview/comp-task-rows.html · references.md#new-mobile-screen
 ```
 
 ## When to skip

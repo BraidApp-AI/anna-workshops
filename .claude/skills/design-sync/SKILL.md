@@ -66,27 +66,24 @@ These do not change per-task. If you bend one, declare it in the report.
 
 ## Tell-and-show report (required output)
 
-After any UI work, end your response with this block. The shape is fixed; substitute real content.
+After any UI work, end your response with this block. **Keep it under 150 words.** The shape is fixed: 4 to 7 short rules-applied bullets, then a one-line `Read:` pointer.
 
 ```markdown
-### What I built and why
+### What I did
 
-Used from the design system:
-- Tokens: <tokens you imported, e.g. sage500 (CTA), cream100 (bg)>
-- Components: <components you reused, e.g. <Button variant="primary">, <Card>>
-- Reference: <closest preview card or ui_kit you matched, e.g. preview/comp-task-rows.html>
-- Voice: <one-line note on the voice choices you applied>
+- ✓ <Brand rule, phrased the way the brand book talks about it>: <where it shows up>
+- ✓ <Brand rule>: <user-facing detail or named component>
+- ✓ <Brand rule>: <specifics>
+- ⚠ <Rule bent or system-wide drift you noticed>: <one-line reason>
 
-Rules applied (and any I bent):
-- ✓ <a rule you followed and where>
-- ✓ <another>
-- ⚠ <a rule you bent, with the reason — or omit this line if none>
-
-Read next to internalize:
-- <one or two specific files in anna-brand the engineer should open to learn from this>
+Read: <file in anna-brand> · <one more if useful>
 ```
 
-The "Read next" pointers are the teaching loop. Make them specific and useful — point at the canonical example for what was just built, plus one adjacent thing worth absorbing.
+**Phrase rules conceptually, not in token names.** "Sage-tinted surface", "generous card radius", "sentence case", "sage-only CTA" — that's how the brand book talks; that's what engineers need to remember. `colors.sage500`, `borderRadius.lg`, `12px`, `#FAF8F5` make their eyes glaze. When listing concrete details, prefer things they actually care about: user-facing labels, voice fragments, the preview card you matched, named components reused. Skip generic phrasings like "✓ followed brand rules".
+
+The trailing `Read:` line is the teaching loop. Point at the canonical reference for what was just built; add one more only if it materially helps.
+
+Engineers are busy. 30-second skim, not an essay.
 
 ## When to skip the skill
 
