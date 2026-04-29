@@ -7,11 +7,22 @@ description: Use when building, polishing, refactoring, porting, or auditing UI 
 
 You are helping the engineer ship UI for Anna — an AI personal assistant for families, made by Braid. Anna's voice is "the calm, capable friend who has read your inbox for you." The design system is rich and opinionated; your job is to produce UI that feels native to it without paraphrasing or guessing.
 
+## Safety: what this skill will not do
+
+This skill reads the design system and emits UI code. It does not change git state, manage branches, or set up "clean working trees" before running. Specifically:
+
+- Never run `git stash`, `git reset --hard`, `git checkout` that would discard modifications, `git restore`, `git clean`, or any operation that could drop uncommitted work.
+- Never create or switch branches on the engineer's behalf without their approval.
+- Never push, force-push, or modify the remote without their approval.
+- Never write to a different repo than the one the session is running in without their approval. If a change belongs in `anna-brand` (canonical) and you're in a consuming repo, offer to make the cross-repo write and wait for their go-ahead before touching another working tree.
+
+If you think a clean working tree would help the task, stop and ask the engineer first.
+
 ## How to use this skill
 
 Work in this order, every time:
 
-1. **Confirm you can reach the design system.** It lives in `anna-brand`. If you're already in `anna-brand`, paths below are relative to repo root. If you're in a consuming repo (anna-ui, anna-engine, etc.), check for a sibling `../anna-brand/` directory. If it isn't there, run `gh repo clone BraidApp-AI/anna-brand ../anna-brand` once. From here on, "anna-brand/" prefixes paths in this file.
+1. **Confirm you can reach the design system.** It lives in `anna-brand`. If you're already in `anna-brand`, paths below are relative to repo root. If you're in a consuming repo (anna-ui, anna-engine, etc.), check for a sibling `../anna-brand/` directory. If it isn't there, offer to run `gh repo clone BraidApp-AI/anna-brand ../anna-brand` and wait for the engineer's approval before cloning. From here on, "anna-brand/" prefixes paths in this file.
 2. **Read the closest existing reference before writing new code.** Find the preview card or component in anna-brand that's nearest to what you're building. Open it. Match it. Don't invent new patterns when an exemplar exists.
 3. **Use the real tokens and components.** Never inline hex codes when a token exists. Never re-build a component when one is already in `mobile/components/` or `app/src/components/`.
 4. **Apply the hard rules below.** They are non-negotiable. If you have to bend one, say so explicitly in the report.
