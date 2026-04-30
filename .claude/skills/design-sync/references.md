@@ -54,7 +54,7 @@ Lazy-loaded recipes for non-default flows. Read these only when the task matches
 
 1. **Decide which platform** — `anna-brand/mobile/components/` (RN) or `anna-brand/app/src/components/` (Next.js), or both.
 2. **Match the API conventions of neighboring components.** Read 2-3 existing ones first. Note prop naming, default-prop patterns, how variants are handled, how tokens are imported.
-3. **Write it in the canonical location first** (in `anna-brand`). If the engineer is working in `anna-ui`, you may need to mirror it back to `anna-ui/mobile/components/` or `anna-ui/app/src/components/` so they can use it immediately. Flag this in the report and suggest a follow-up to push the canonical change to `anna-brand` via PR.
+3. **Decide where to write it.** The canonical home is `anna-brand`, but the engineer is usually working in a consuming repo and needs the component immediately. Default flow: write the component in the consuming repo's components dir so it's usable now, then **offer to also write it in `anna-brand`** as the canonical version. Wait for the engineer's approval before touching another repo's working tree. Flag in the report which repos got the write and which didn't.
 4. **Add a preview card** in `anna-brand/preview/comp-<name>.html` that demonstrates the component visually. This is part of the design system contract — a component without a preview card is invisible to future agents.
 5. **Update `anna-brand/index.html`** GROUPS array to include the new preview card under the right group (Components, etc.).
 6. **Output the tell-and-show report**, with explicit pointers to the new files for review.
